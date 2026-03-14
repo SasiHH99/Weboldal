@@ -1,144 +1,85 @@
-<!DOCTYPE html>
-<html lang="de">
+﻿<!DOCTYPE html>
+<html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel – B. Photography</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/global.js"></script>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial;
-      background: linear-gradient(135deg,#0f0f0f,#1c1c1c);
-      color: white;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 60px auto;
-      padding: 40px;
-      background: #181818;
-      border-radius: 16px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-    }
-
-    h1 {
-      margin-bottom: 30px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead {
-      background: #222;
-    }
-
-    th {
-      text-align: left;
-      padding: 14px;
-      font-weight: 500;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #bbb;
-    }
-
-    td {
-      padding: 16px 14px;
-      border-bottom: 1px solid #2a2a2a;
-    }
-
-    tr:hover {
-      background: #202020;
-    }
-
-    .status {
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      display: inline-block;
-    }
-
-    .pending {
-      background: #4a3a00;
-      color: #ffcc00;
-    }
-
-    .confirmed {
-      background: #103d24;
-      color: #00e676;
-    }
-
-    .cancelled {
-      background: #3d1010;
-      color: #ff4c4c;
-    }
-
-    .btn {
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .btn-confirm {
-      background: #1f8b4c;
-      color: white;
-      margin-right: 8px;
-    }
-
-    .btn-confirm:hover {
-      background: #26a65b;
-    }
-
-    .btn-cancel {
-      background: #a12c2c;
-      color: white;
-    }
-
-    .btn-cancel:hover {
-      background: #c0392b;
-    }
-
-    @media (max-width: 900px) {
-      table {
-        font-size: 14px;
-      }
-    }
-
-  </style>
+  <title>Admin Dashboard | B. Photography</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/global.js"></script>
 </head>
+<body class="admin-body" data-admin-view="dashboard">
+  <div class="admin-shell">
+    <header class="admin-topbar">
+      <div>
+        <p class="admin-eyebrow">B. Photography</p>
+        <h1>Központi admin</h1>
+      </div>
 
-<body>
+      <div class="admin-topbar-actions">
+        <button type="button" class="ghost-btn" id="refreshAllBtn">Minden frissítése</button>
+        <button type="button" class="ghost-btn" id="logoutBtn">Kijelentkezés</button>
+      </div>
+    </header>
 
-<div class="container">
-  <h1>Admin – Foglalások</h1>
+    <main class="admin-main">
+      <nav class="admin-linkbar" aria-label="Admin navigáció">
+        <a class="admin-link is-active" href="index.html">Dashboard</a>
+        <a class="admin-link" href="foglalasok.html">Foglalások</a>
+        <a class="admin-link" href="kapcsolatok.html">Kapcsolatok</a>
+        <a class="admin-link" href="galeria.html">Galéria</a>
+        <a class="admin-link" href="portfolio.html">Portfólió</a>
+      </nav>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Név</th>
-        <th>Email</th>
-        <th>Dátum</th>
-        <th>Csomag</th>
-        <th>Status</th>
-        <th>Művelet</th>
-      </tr>
-    </thead>
-    <tbody id="bookingTable"></tbody>
-  </table>
-</div>
+      <section class="stats-grid" aria-label="Admin statisztikák">
+        <article class="stat-card">
+          <span class="stat-label">Foglalások</span>
+          <strong class="stat-value" id="statBookings">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Kapcsolatok</span>
+          <strong class="stat-value" id="statContacts">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Galéria ügyfelek</span>
+          <strong class="stat-value" id="statGalleryUsers">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Portfólió elemek</span>
+          <strong class="stat-value" id="statPortfolioItems">0</strong>
+        </article>
+      </section>
 
-<script src="admin.js"></script>
+      <div class="feedback-banner hidden" id="globalFeedback"></div>
 
+      <section class="quick-grid">
+        <a class="quick-card" href="foglalasok.html">
+          <p class="panel-kicker">Munkafelület</p>
+          <h2>Foglalások</h2>
+          <p>Itt kezeled a beérkező időpontkéréseket, státuszokat és a foglalásból indított galériafiókokat.</p>
+        </a>
+
+        <a class="quick-card" href="kapcsolatok.html">
+          <p class="panel-kicker">Munkafelület</p>
+          <h2>Kapcsolatok</h2>
+          <p>Minden kapcsolat űrlapos üzenet külön oldalon, admin megjegyzéssel és közvetlen válasz linkkel.</p>
+        </a>
+
+        <a class="quick-card" href="galeria.html">
+          <p class="panel-kicker">Munkafelület</p>
+          <h2>Galéria ügyfelek</h2>
+          <p>Új galériafiók, jelszó reset, kliens képfeltöltés és belső ügyfél-megjegyzések egy helyen.</p>
+        </a>
+
+        <a class="quick-card" href="portfolio.html">
+          <p class="panel-kicker">Munkafelület</p>
+          <h2>Portfólió</h2>
+          <p>Portfólió képek feltöltése, szerkesztése és törlése külön oldalon, mobilon is kezelhetőbben.</p>
+        </a>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
 </body>
 </html>

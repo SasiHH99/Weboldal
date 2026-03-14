@@ -1,0 +1,40 @@
+{
+  "name": "B. Photography",
+  "short_name": "BPhoto",
+  "id": "/",
+  "start_url": "/de/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f0f12",
+  "theme_color": "#0f0f12",
+  "description": "Premium portrait and creative photography in Austria.",
+  "icons": [
+    {
+      "src": "/images/pwa/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/pwa/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/pwa/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book Appointment",
+      "url": "/de/termin.html",
+      "description": "Open the booking page."
+    },
+    {
+      "name": "Idopontfoglalas",
+      "url": "/hu/foglalas.html",
+      "description": "Open the Hungarian booking page."
+    }
+  ]
+}

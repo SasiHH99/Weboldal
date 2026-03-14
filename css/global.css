@@ -191,6 +191,25 @@ body {
   color: rgba(255,255,255,0.55);
 }
 
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 14px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.footer-links a {
+  color: #f5dc9c;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
 /* =========================
    MOBILE
 ========================= */
@@ -241,6 +260,10 @@ body {
   transform: scale(1.05);
 }
 
+body.has-site-chat .whatsapp-float {
+  bottom: 92px;
+}
+
 /* =========================
    LANG SWITCH (BUTTON)
 ========================= */
@@ -267,6 +290,12 @@ body {
 
 .lang-switch button:hover {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  body.has-site-chat .whatsapp-float {
+    bottom: 82px;
+  }
 }
 
 /* =========================

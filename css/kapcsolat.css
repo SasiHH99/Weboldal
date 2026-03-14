@@ -1,719 +1,269 @@
-/* =========================
-   PAGE TITLE – GLOW TITLE
-========================= */
+:root {
+  --contact-bg: #090b10;
+  --contact-surface: rgba(14, 18, 26, 0.86);
+  --contact-border: rgba(214, 179, 106, 0.18);
+  --contact-text: #f6f2e8;
+  --contact-muted: rgba(246, 242, 232, 0.68);
+  --contact-accent: #d6b36a;
+  --contact-accent-strong: #f0ca82;
+  --contact-shadow: 0 28px 80px rgba(0, 0, 0, 0.4);
+}
 
-.page-title {
-  padding: 140px 20px 80px;
-  text-align: center;
+body.contact-page {
   background:
-    radial-gradient(
-      ellipse at center,
-      rgba(245,220,156,0.08),
-      rgba(0,0,0,0)
-    );
+    radial-gradient(circle at top left, rgba(214, 179, 106, 0.15), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(65, 104, 158, 0.14), transparent 24%),
+    linear-gradient(180deg, #080a0f, #0d1017 40%, #090b10);
+  color: var(--contact-text);
 }
 
-.page-title h1 {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(2.4rem, 5vw, 3.2rem);
-  letter-spacing: 0.38em;
-  text-transform: uppercase;
-  color: #f5dc9c;
-  text-shadow:
-    0 0 14px rgba(245,220,156,0.35),
-    0 0 32px rgba(245,220,156,0.25);
+.contact-shell {
+  width: min(1400px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 128px 0 40px;
 }
 
-.page-title::after {
+.contact-hero,
+.contact-card,
+.contact-success-card {
+  border-radius: 30px;
+  border: 1px solid var(--contact-border);
+  background: var(--contact-surface);
+  box-shadow: var(--contact-shadow);
+}
+
+.contact-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 38px;
+  background:
+    linear-gradient(135deg, rgba(214, 179, 106, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    var(--contact-surface);
+}
+
+.contact-hero::after {
   content: "";
-  display: block;
-  width: 90px;
-  height: 1px;
-  margin: 32px auto 0;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(245,220,156,0.9),
-    transparent
-  );
+  position: absolute;
+  right: -90px;
+  top: -90px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(214, 179, 106, 0.18), transparent 68%);
+  pointer-events: none;
 }
 
-/* =========================
-   CONTACT SECTION
-========================= */
-
-.contact-section {
-  padding: 0 8% 140px;
-  background: #0b0b0b;
+.contact-kicker,
+.contact-card-kicker,
+.contact-info-list strong {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
-/* =========================
-   GRID
-========================= */
+.contact-kicker,
+.contact-card-kicker {
+  margin: 0;
+  color: var(--contact-accent);
+  font-size: 0.8rem;
+}
+
+.contact-hero h1,
+.contact-card h2,
+.contact-success-title {
+  margin: 10px 0 14px;
+  font-family: "Cinzel", Georgia, serif;
+  font-weight: 600;
+}
+
+.contact-hero h1 {
+  max-width: 780px;
+  font-size: clamp(2.4rem, 4vw, 4.8rem);
+  line-height: 0.96;
+}
+
+.contact-hero p,
+.contact-card p,
+.contact-info-list span,
+.contact-info-note,
+.contact-success-text {
+  color: var(--contact-muted);
+  line-height: 1.72;
+}
 
 .contact-grid {
-  max-width: 1200px;
-  margin: 0 auto;
+  margin-top: 24px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: flex-start;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 20px;
 }
 
-/* =========================
-   PANELS
-========================= */
-
-.contact-info,
-.contact-form {
-  background: rgba(255,255,255,0.02);
-  padding: 48px;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.05),
-    0 30px 80px rgba(0,0,0,0.6);
+.contact-card {
+  padding: 28px 24px;
 }
 
-/* =========================
-   HEADINGS
-========================= */
-
-.contact-info h3,
-.contact-form h3 {
-  font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: #f5dc9c;
-  margin-bottom: 28px;
+.contact-info-list {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0;
 }
 
-/* =========================
-   INFO TEXT
-========================= */
-
-.contact-info p {
-  font-size: 0.9rem;
-  line-height: 1.85;
-  color: rgba(255,255,255,0.9);
-  margin-bottom: 32px;
+.contact-info-item {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-/* =========================
-   SOCIAL LINKS
-========================= */
-
-.contact-socials {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 18px 22px;
-
-  border: 1.5px solid rgba(245,220,156,0.6);
-  background: transparent;
-
-  color: #f5dc9c;
+.contact-info-item a {
+  color: var(--contact-text);
   text-decoration: none;
-  font-size: 0.75rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-
-  transition: all 0.3s ease;
 }
 
-.social-link svg {
-  width: 22px;
-  height: 22px;
-  stroke: #f5dc9c;
-  fill: none;
-  stroke-width: 1.6;
+.contact-info-item a:hover {
+  color: var(--contact-accent);
 }
 
-.social-link:hover {
-  background: #f5dc9c;
-  color: #000;
-  transform: translateY(-2px);
+.contact-info-note {
+  margin-top: 18px;
 }
 
-.social-link:hover svg {
-  stroke: #000;
+.contact-form {
+  display: grid;
+  gap: 18px;
 }
 
-/* =========================
-   LOCATION
-========================= */
-
-.contact-location {
-  margin-top: 36px;
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
-  color: #f5dc9c;
-  opacity: 0.9;
+.contact-field {
+  display: grid;
+  gap: 8px;
 }
 
-/* =========================
-   FORM
-========================= */
-
-.contact-form label {
-  display: block;
-  font-size: 0.7rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  margin-bottom: 22px;
-  color: rgba(255,255,255,0.95);
+.contact-field span {
+  color: var(--contact-muted);
+  font-size: 0.86rem;
 }
 
-.contact-form input,
-.contact-form textarea {
+.contact-field input,
+.contact-field textarea {
   width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.35);
-  padding: 12px 0;
-  color: #fff;
-  font-size: 0.9rem;
-}
-
-.contact-form textarea {
-  min-height: 120px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--contact-text);
+  padding: 16px;
+  outline: none;
   resize: vertical;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-  outline: none;
-  border-color: #f5dc9c;
+.contact-field input:focus,
+.contact-field textarea:focus {
+  border-color: rgba(214, 179, 106, 0.72);
+  box-shadow: 0 0 0 3px rgba(214, 179, 106, 0.14);
 }
 
-/* =========================
-   BUTTON
-========================= */
-
-.contact-form .cta-btn {
-  margin-top: 32px;
-  padding: 14px 32px;
-  background: transparent;
-  border: 1.5px solid #f5dc9c;
-  color: #f5dc9c;
-  font-size: 0.7rem;
-  letter-spacing: 0.28em;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.contact-field textarea {
+  min-height: 160px;
 }
 
-.contact-form .cta-btn:hover {
-  background: #f5dc9c;
-  color: #000;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 900px) {
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-
-  .contact-info,
-  .contact-form {
-    padding: 36px 28px;
-    text-align: center;
-  }
-
-  .contact-socials {
-    align-items: center;
-  }
-
-  .social-link {
-    justify-content: center;
-    width: 100%;
-    max-width: 360px;
-  }
-
-  .contact-form .cta-btn {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-/* =========================
-   RESET PAGE TITLE SECTION
-========================= */
-
-.page-title {
-  padding: 0 !important;
-  margin: 140px auto 80px auto;
-  background: none !important;
-}
-
-.page-title::before,
-.page-title::after {
-  pointer-events: none;
-}
-/* ===== CONTACT PAGE – BASE FIX ===== */
-
-.contact-section {
-  padding: 140px 8% 160px;
-  background: #0b0b0b;
-}
-
-/* TITLE */
-.contact-title {
-  max-width: 1200px;
-  margin: 0 auto 80px;
-  text-align: center;
-}
-
-.contact-title h1 {
-  font-family: 'Cinzel', serif;
-  font-size: 2.6rem;
-  letter-spacing: 0.45em;
-  color: #f5dc9c;
+.contact-submit {
+  min-height: 54px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--contact-accent), var(--contact-accent-strong));
+  color: #17120b;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
 }
 
-
-/* GRID */
-.contact-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+.contact-submit:disabled {
+  opacity: 0.65;
+  cursor: wait;
 }
 
-/* PANELS */
-.contact-info,
-.contact-form {
-  background: rgba(255,255,255,0.015);
-  padding: 48px;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+.contact-status {
+  min-height: 24px;
+  color: var(--contact-muted);
 }
 
-/* MOBILE */
-@media (max-width: 900px) {
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
+.contact-status.is-error {
+  color: #ffb3b3;
 }
-/* =========================
-   CONTACT SUCCESS OVERLAY
-========================= */
 
 .contact-success {
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0,0,0,0.65),
-    rgba(0,0,0,0.95)
-  );
-  display: none;
-  align-items: center;
-  justify-content: center;
   z-index: 99999;
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: rgba(5, 6, 10, 0.84);
+  backdrop-filter: blur(10px);
 }
 
 .contact-success.show {
-  display: flex;
+  display: grid;
 }
 
-.success-card {
-  background: linear-gradient(
-    180deg,
-    rgba(245,220,156,0.18),
-    rgba(245,220,156,0.05)
-  );
-  border: 1px solid rgba(245,220,156,0.35);
-  padding: 56px 48px;
+.contact-success-card {
+  width: min(520px, 100%);
+  padding: 32px;
   text-align: center;
-  max-width: 420px;
-  width: 90%;
-  box-shadow:
-    0 40px 120px rgba(0,0,0,0.85),
-    inset 0 0 0 1px rgba(255,255,255,0.06);
 }
 
-.success-icon {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 22px;
+.contact-success-icon {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 16px;
   border-radius: 50%;
-  background: #f5dc9c;
-  color: #000;
+  display: grid;
+  place-items: center;
   font-size: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(214, 179, 106, 0.14);
+  color: var(--contact-accent);
+  box-shadow: 0 0 28px rgba(214, 179, 106, 0.18);
 }
 
-.thank-you-title {
-  color: #f5dc9c;
-  letter-spacing: 0.32em;
-  font-size: 0.8rem;
-  margin-bottom: 16px;
+.contact-success-title {
+  font-size: 1.8rem;
 }
 
-.thank-you-text {
-  font-size: 0.85rem;
-  margin-bottom: 20px;
+.contact-success-text {
+  margin: 0;
 }
 
-.success-btn {
-  margin-top: 32px;
-  padding: 14px 42px;
-  border: 1.5px solid #f5dc9c;
-  background: transparent;
-  color: #f5dc9c;
-  font-size: 0.75rem;
-  letter-spacing: 0.32em;
+.contact-success-btn {
+  min-height: 48px;
+  margin-top: 22px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--contact-text);
   cursor: pointer;
 }
 
-.success-btn:hover {
-  background: #f5dc9c;
-  color: #000;
-}
-/* =========================
-   CONTACT SUCCESS – ERROR STATE
-========================= */
-
-.contact-success.error .success-icon {
-  background: #c0392b; /* PIROS */
-  color: #fff;
-}
-
-.contact-success.error .thank-you-title {
-  color: #ff6b6b;
-}
-
-.contact-success.error .thank-you-text {
+.contact-success.error .contact-success-icon {
   color: #ffb3b3;
+  background: rgba(209, 82, 82, 0.16);
+  box-shadow: 0 0 28px rgba(209, 82, 82, 0.18);
 }
 
-.contact-success.error .success-btn {
-  border-color: #ff6b6b;
-  color: #ff6b6b;
-}
-
-.contact-success.error .success-btn:hover {
-  background: #ff6b6b;
-  color: #000;
-}
-/* =========================
-   SPINNER
-========================= */
-
-.spinner {
-  width: 22px;
-  height: 22px;
-  border: 2px solid rgba(0,0,0,0.2);
-  border-top-color: #000;
-  border-radius: 50%;
-  animation: spin 0.9s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* HIBA SPINNER PIROS */
-.contact-success.error .spinner {
-  border-top-color: #fff;
-}
-/* =========================
-   CONTACT SUCCESS ICON – GLOW
-========================= */
-
-.contact-success .success-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(245, 220, 156, 0.12);
-  color: #f5dc9c;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 1.8rem;
-  font-weight: 600;
-
-  box-shadow:
-    0 0 14px rgba(245,220,156,0.6),
-    0 0 32px rgba(245,220,156,0.4),
-    0 0 70px rgba(245,220,156,0.25);
-
-  animation: contactGlow 2.5s ease-in-out infinite;
-}
-
-/* SIKER GLOW */
-@keyframes contactGlow {
-  0%, 100% {
-    box-shadow:
-      0 0 12px rgba(245,220,156,0.4),
-      0 0 28px rgba(245,220,156,0.25),
-      0 0 60px rgba(245,220,156,0.15);
-  }
-  50% {
-    box-shadow:
-      0 0 20px rgba(245,220,156,0.9),
-      0 0 44px rgba(245,220,156,0.6),
-      0 0 90px rgba(245,220,156,0.35);
-  }
-}
-/* =========================
-   CONTACT – MOBILE CENTER FIX
-========================= */
-@media (max-width: 768px) {
-
-  /* TELJES GRID KÖZÉPRE */
-  .contact-grid {
-    justify-items: center;
-  }
-
-  /* BAL OLDALI KÁRTYA */
-  .contact-info {
-    width: calc(100% - 32px);
-    max-width: 360px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  /* CÍM KÖZÉPRE */
-  .contact-info h3 {
-    text-align: center;
-  }
-
-  /* SZÖVEG KÖZÉPRE */
-  .contact-info p {
-    text-align: center;
-  }
-
-  /* GOMBOK / LINK KÖZÉPRE */
-  .contact-socials {
-    align-items: center;
-  }
-
-  .social-link {
-    width: 100%;
-    max-width: 320px;
-    justify-content: center;
-    text-align: center;
-  }
-
-  /* HELYSZÍN SZÖVEG */
-  .contact-location {
-    text-align: center;
-  }
-}
-/* =========================
-   CONTACT – MOBILE HARD CENTER FIX
-   (FINAL, 1:1)
-========================= */
-@media (max-width: 768px) {
-
-  /* TELJES SECTION RESET */
-  .contact-section {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  /* GRID TELJES KÖZÉPRE */
-  .contact-grid {
-    width: 100%;
-    margin: 0 auto;
-    justify-items: center;
-  }
-
-  /* KÁRTYÁK FIX SZÉLESSÉG + KÖZÉP */
-  .contact-info,
-  .contact-form {
-    width: 100%;
-    max-width: 360px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 32px 24px;
-    box-sizing: border-box;
-    text-align: center;
-  }
-
-  /* SOCIAL BLOKK */
-  .contact-socials {
-    align-items: center;
-  }
-
-  .social-link {
-    width: 100%;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    text-align: center;
-  }
-
-  /* HELYSZÍN */
-  .contact-location {
-    text-align: center;
-  }
-}
-/* =========================
-   CONTACT TITLE – MOBILE FIX
-========================= */
-@media (max-width: 768px) {
-
-  .contact-title {
-    width: 100%;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden; /* kilógás ellen */
-  }
-
-  .contact-title h1 {
-    font-size: 1.9rem;              /* kisebb */
-    letter-spacing: 0.22em;         /* szorosabb */
-    padding-left: 0.22em;           /* optikai közép */
-    margin: 0 auto;
-    text-align: center;
-    white-space: nowrap;            /* ne törjön */
-  }
-}
-/* =========================
-   DE – MOBILE FINOMÍTÁS
-   (csak német oldal)
-========================= */
-@media (max-width: 768px) {
-
-  :lang(de) .contact-title h1 {
-    font-size: 1.6rem;
-    letter-spacing: 0.18em;
-  }
-
-  :lang(de) .contact-info p {
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    line-height: 1.6;
-  }
-
-  :lang(de) .contact-socials {
-    gap: 14px;
-  }
-
-  :lang(de) .social-link {
-    padding: 14px 16px;
-  }
-
-  :lang(de) .social-link span {
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
-    word-break: break-word;
-    text-align: center;
-  }
-
-  :lang(de) .contact-location {
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
-    text-align: center;
-  }
-}
-/* =========================
-   CONTACT – MOBILE (CLEAN)
-========================= */
-@media (max-width: 768px) {
-
-  .contact-section {
-    padding: 120px 16px 140px;
-  }
-
-  .contact-title {
-    margin-bottom: 56px;
-    text-align: center;
-  }
-
-  .contact-title h1 {
-    font-size: 1.8rem;
-    letter-spacing: 0.22em;
-    margin: 0 auto;
-    text-align: center;
+@media (max-width: 920px) {
+  .contact-shell {
+    width: min(100% - 20px, 1400px);
+    padding-top: 108px;
   }
 
   .contact-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
-    justify-items: center;
   }
 
-  .contact-info,
-  .contact-form {
-    width: 100%;
-    max-width: 360px;
-    padding: 32px 24px;
-    text-align: center;
+  .contact-hero,
+  .contact-card {
+    padding: 24px;
   }
-
-  .contact-info h3,
-  .contact-form h3 {
-    text-align: center;
-  }
-
-  .contact-info p {
-    text-align: center;
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-
-  .contact-socials {
-    align-items: center;
-  }
-
-  .social-link {
-    width: 100%;
-    max-width: 300px;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .contact-location {
-    text-align: center;
-    font-size: 0.7rem;
-  }
-}
-/* =========================
-   DE – TITLE TYPO FIX (FINAL)
-========================= */
-@media (max-width: 768px) {
-
-  /* FŐ CÍM: KONTAKT */
-  :lang(de) .contact-title h1 {
-    font-size: 1.7rem;
-    letter-spacing: 0.16em;   /* 🔥 sokkal kisebb */
-    white-space: normal;      /* 🔥 törhet */
-    text-align: center;
-  }
-
-  /* ALCÍM: KONTAKTINFORMATIONEN */
-  :lang(de) .contact-info h3 {
-    font-size: 0.95rem;
-    letter-spacing: 0.14em;   /* 🔥 ez volt a gond */
-    line-height: 1.4;
-    text-align: center;
-    white-space: normal;
-  }
-}
-/* =========================
-   MAILTO – USER GESTURE FIX
-========================= */
-.email-link {
-  position: relative;
-  z-index: 10;
-  pointer-events: auto;
 }

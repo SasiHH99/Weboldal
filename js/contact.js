@@ -1,188 +1,109 @@
+﻿const CONTACT_TEXT = {
+  hu: {
+    sending: "Küldés folyamatban...",
+    successTitle: "Üzenet elküldve",
+    successText: "Köszönöm az üzenetet. Hamarosan válaszolok.",
+    errorTitle: "Küldés sikertelen",
+    errorText: "Valami hiba történt az üzenet küldése közben. Próbáld meg újra kicsit később.",
+    close: "Bezár",
+    invalid: "Kérlek tölts ki minden mezőt érvényes adatokkal."
+  },
+  de: {
+    sending: "Nachricht wird gesendet...",
+    successTitle: "Nachricht gesendet",
+    successText: "Danke für deine Nachricht. Ich melde mich bald zurück.",
+    errorTitle: "Senden fehlgeschlagen",
+    errorText: "Beim Versenden ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
+    close: "Schließen",
+    invalid: "Bitte alle Felder korrekt ausfüllen."
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
-
-  /* =========================
-     LANGUAGE DETECT
-  ========================= */
-
-  const lang = location.pathname.startsWith("/de") ? "de" : "hu";
-
-  const TEXT = {
-    hu: {
-      sendingTitle: "KÜLDÉS FOLYAMATBAN",
-      sendingText: "Üzenet küldése…",
-      successTitle: "ÜZENET ELKÜLDVE",
-      successText: "Köszönöm az üzenetet,<br>hamarosan válaszolok.",
-      errorTitle: "HIBA",
-      errorText: "Hiba történt az üzenet küldésekor.<br>Kérlek próbáld újra."
-    },
-    de: {
-      sendingTitle: "SENDEN LÄUFT",
-      sendingText: "Nachricht wird gesendet…",
-      successTitle: "NACHRICHT GESENDET",
-      successText: "Vielen Dank für Ihre Nachricht,<br>ich melde mich bald.",
-      errorTitle: "FEHLER",
-      errorText: "Beim Senden der Nachricht ist ein Fehler aufgetreten.<br>Bitte versuchen Sie es erneut."
-    }
-  };
-
-  const t = TEXT[lang];
-
-  /* =========================
-     ELEMENTS
-  ========================= */
-
   const form = document.getElementById("contactForm");
   if (!form) return;
 
-  const ctaBtn = form.querySelector(".cta-btn");
-
-  const successBox   = document.getElementById("contactSuccess");
-  const successIcon  = successBox.querySelector(".success-icon");
-  const successTitle = successBox.querySelector(".thank-you-title");
-  const successText  = successBox.querySelector(".thank-you-text");
-
-  const closeBtn = document.getElementById("contactSuccessClose");
-  const retryBtn = document.getElementById("contactRetry");
+  const lang = form.dataset.lang === "de" ? "de" : "hu";
+  const copy = CONTACT_TEXT[lang];
+  const submitButton = document.getElementById("contactSubmit");
+  const status = document.getElementById("contactStatus");
+  const overlay = document.getElementById("contactSuccess");
+  const overlayTitle = document.getElementById("contactSuccessTitle");
+  const overlayText = document.getElementById("contactSuccessText");
+  const overlayButton = document.getElementById("contactSuccessClose");
 
   let isSubmitting = false;
 
-  /* =========================
-     HELPERS
-  ========================= */
-
-  function resetOverlay() {
-    successBox.classList.remove("error");
-    successIcon.textContent = "✓";
-    successTitle.textContent = "";
-    successText.textContent = "";
-    retryBtn.style.display = "none";
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("source") === "chatbot" && !form.message.value.trim()) {
+    form.message.value = lang === "hu"
+      ? "A chatbotból érkeztem, és lenne egy további kérdésem a fotózással kapcsolatban."
+      : "Ich komme aus dem Chatbot und habe noch eine weitere Frage zum Shooting.";
   }
 
-  function showOverlay() {
-    successBox.classList.add("show");
+  function showOverlay(kind) {
+    const isError = kind === "error";
+    overlay.classList.toggle("error", isError);
+    overlayTitle.textContent = isError ? copy.errorTitle : copy.successTitle;
+    overlayText.textContent = isError ? copy.errorText : copy.successText;
+    overlayButton.textContent = copy.close;
+    overlay.classList.add("show");
   }
 
   function hideOverlay() {
-    successBox.classList.remove("show");
+    overlay.classList.remove("show");
   }
 
-  /* =========================
-     SUBMIT
-  ========================= */
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
     if (isSubmitting) return;
 
-    isSubmitting = true;
-    ctaBtn.disabled = true;
-
-    resetOverlay();
-    successIcon.textContent = "⏳";
-    successTitle.textContent = t.sendingTitle;
-    successText.textContent = t.sendingText;
-    showOverlay();
-
-    const params = {
-      name: form.name.value,
-      email: form.email.value,
-      message: form.message.value,
-      lang: lang // 👈 később jól jön template-ben
+    const payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      message: form.message.value.trim(),
+      lang
     };
 
+    if (!payload.name || !payload.email || !payload.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      status.textContent = copy.invalid;
+      status.classList.add("is-error");
+      return;
+    }
+
+    isSubmitting = true;
+    submitButton.disabled = true;
+    status.textContent = copy.sending;
+    status.classList.remove("is-error");
+
     try {
-      /* ===== EMAIL NEKED ===== */
-      await emailjs.send(
-        "service_8twrxd5",
-        "template_agwc588", // később: HU / DE külön
-        params
-      );
+      const response = await fetch("/.netlify/functions/send-contact-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-      /* ===== AUTO-REPLY USER ===== */
-      await emailjs.send(
-        "service_8twrxd5",
-        "template_17dftfo", // később: HU / DE külön
-        params
-      );
-
-      /* ===== SUCCESS ===== */
-      successIcon.textContent = "✓";
-      successTitle.textContent = t.successTitle;
-      successText.innerHTML = t.successText;
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok || body.error) {
+        throw new Error(body.error || "Request failed");
+      }
 
       form.reset();
-
-      
-/* 🔥 AUTO CLOSE – 3 SEC */
-setTimeout(() => {
-  successBox.classList.remove("show");
-}, 3000);
-
-    } catch (err) {
-      console.error("EMAILJS ERROR:", err);
-
-      successBox.classList.add("error");
-      successIcon.textContent = "✕";
-      successTitle.textContent = t.errorTitle;
-      successText.innerHTML = t.errorText;
-
-      retryBtn.style.display = "inline-block";
+      status.textContent = "";
+      showOverlay("success");
+    } catch (error) {
+      console.error("Contact form error:", error);
+      status.textContent = copy.errorText;
+      status.classList.add("is-error");
+      showOverlay("error");
+    } finally {
+      isSubmitting = false;
+      submitButton.disabled = false;
     }
-
-    isSubmitting = false;
-    ctaBtn.disabled = false;
   });
 
-  /* =========================
-     BUTTONS
-  ========================= */
-
-  closeBtn.addEventListener("click", hideOverlay);
-
-  retryBtn.addEventListener("click", () => {
-    hideOverlay();
-    form.querySelector("input[name='name']").focus();
+  overlayButton.addEventListener("click", hideOverlay);
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) hideOverlay();
   });
-
 });
-document.addEventListener("click", (e) => {
-  const a = e.target.closest("a");
-  if (a && a.href && a.href.startsWith("mailto:")) {
-    return; // 🔥 HAGYD BÉKÉN
-  }
-});
-/* =========================
-   SAFE LINK POLICY
-   mailto / tel / external
-========================= */
-document.addEventListener(
-  "click",
-  (e) => {
-    const link = e.target.closest("a");
-    if (!link) return;
-
-    const href = link.getAttribute("href");
-    if (!href) return;
-
-    /* 🔥 SAFE PROTOCOLS */
-    if (
-      href.startsWith("mailto:") ||
-      href.startsWith("tel:")
-    ) {
-      // hagyjuk a böngészőnek – user gesture megmarad
-      return;
-    }
-
-    /* 🔥 EXTERNAL LINKS */
-    if (
-      href.startsWith("http://") ||
-      href.startsWith("https://")
-    ) {
-      // ne blokkoljuk külső linket sem
-      return;
-    }
-
-    // minden más marad a meglévő JS logikán
-  },
-  true // ⚠️ capture phase – ez a kulcs
-);

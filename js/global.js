@@ -1,5 +1,6 @@
 const SUPABASE_URL = "https://hxvhsxppmdzcbklcberm.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_feNwyFggYsuxRqOr85cIng_h2pP4zn8";
+const PWA_THEME_COLOR = "#0f0f12";
 
 function initSupabaseClient() {
   if (window.supabaseClient || !window.supabase?.createClient) return;
@@ -7,6 +8,7 @@ function initSupabaseClient() {
 }
 
 function injectWhatsappButton() {
+  if (window.location.pathname.startsWith("/admin")) return;
   if (document.querySelector(".whatsapp-float")) return;
 
   const a = document.createElement("a");
@@ -26,7 +28,95 @@ function injectWhatsappButton() {
   document.body.appendChild(a);
 }
 
+function ensureChatbotAssets() {
+  if (window.location.pathname.startsWith("/admin")) return;
+
+  appendHeadTag('link[href="/css/chatbot.css"]', () => {
+    const el = document.createElement("link");
+    el.rel = "stylesheet";
+    el.href = "/css/chatbot.css";
+    return el;
+  });
+
+  if (document.querySelector('script[src="/js/chatbot.js"]')) return;
+  const script = document.createElement("script");
+  script.src = "/js/chatbot.js";
+  document.body.appendChild(script);
+}
+
+function appendHeadTag(selector, createTag) {
+  if (!document.head || document.head.querySelector(selector)) return;
+  document.head.appendChild(createTag());
+}
+
+function ensurePwaHead() {
+  appendHeadTag('link[rel="manifest"]', () => {
+    const el = document.createElement("link");
+    el.rel = "manifest";
+    el.href = "/manifest.webmanifest";
+    return el;
+  });
+
+  appendHeadTag('meta[name="theme-color"]', () => {
+    const el = document.createElement("meta");
+    el.name = "theme-color";
+    el.content = PWA_THEME_COLOR;
+    return el;
+  });
+
+  appendHeadTag('meta[name="mobile-web-app-capable"]', () => {
+    const el = document.createElement("meta");
+    el.name = "mobile-web-app-capable";
+    el.content = "yes";
+    return el;
+  });
+
+  appendHeadTag('meta[name="apple-mobile-web-app-capable"]', () => {
+    const el = document.createElement("meta");
+    el.name = "apple-mobile-web-app-capable";
+    el.content = "yes";
+    return el;
+  });
+
+  appendHeadTag('meta[name="apple-mobile-web-app-status-bar-style"]', () => {
+    const el = document.createElement("meta");
+    el.name = "apple-mobile-web-app-status-bar-style";
+    el.content = "black-translucent";
+    return el;
+  });
+
+  appendHeadTag('meta[name="apple-mobile-web-app-title"]', () => {
+    const el = document.createElement("meta");
+    el.name = "apple-mobile-web-app-title";
+    el.content = "B. Photography";
+    return el;
+  });
+
+  appendHeadTag('link[rel="apple-touch-icon"]', () => {
+    const el = document.createElement("link");
+    el.rel = "apple-touch-icon";
+    el.href = "/images/pwa/apple-touch-icon.png";
+    return el;
+  });
+}
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+
+  window.addEventListener(
+    "load",
+    () => {
+      navigator.serviceWorker.register("/service-worker.js").catch((error) => {
+        console.warn("Service worker registration failed:", error);
+      });
+    },
+    { once: true }
+  );
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  ensurePwaHead();
+  ensureChatbotAssets();
+  registerServiceWorker();
   initSupabaseClient();
-  injectWhatsappButton();
 });

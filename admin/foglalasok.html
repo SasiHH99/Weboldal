@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foglalások Admin | B. Photography</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/global.js"></script>
+</head>
+<body class="admin-body" data-admin-view="bookings">
+  <div class="admin-shell">
+    <header class="admin-topbar">
+      <div>
+        <p class="admin-eyebrow">B. Photography</p>
+        <h1>Foglalások</h1>
+      </div>
+      <div class="admin-topbar-actions">
+        <button type="button" class="ghost-btn" id="refreshAllBtn">Minden frissítése</button>
+        <button type="button" class="ghost-btn" id="logoutBtn">Kijelentkezés</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <nav class="admin-linkbar" aria-label="Admin navigáció">
+        <a class="admin-link" href="index.html">Dashboard</a>
+        <a class="admin-link is-active" href="foglalasok.html">Foglalások</a>
+        <a class="admin-link" href="kapcsolatok.html">Kapcsolatok</a>
+        <a class="admin-link" href="galeria.html">Galéria</a>
+        <a class="admin-link" href="portfolio.html">Portfólió</a>
+      </nav>
+
+      <section class="stats-grid" aria-label="Admin statisztikák">
+        <article class="stat-card"><span class="stat-label">Foglalások</span><strong class="stat-value" id="statBookings">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Kapcsolatok</span><strong class="stat-value" id="statContacts">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Galéria ügyfelek</span><strong class="stat-value" id="statGalleryUsers">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Portfólió elemek</span><strong class="stat-value" id="statPortfolioItems">0</strong></article>
+      </section>
+
+      <div class="feedback-banner hidden" id="globalFeedback"></div>
+
+      <section class="workspace-grid">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Áttekintés</p>
+              <h2>Foglalások</h2>
+            </div>
+            <div class="toolbar">
+              <label class="field">
+                <span>Keresés</span>
+                <input type="search" id="bookingSearch" placeholder="Név, email, csomag">
+              </label>
+              <label class="field">
+                <span>Státusz</span>
+                <select id="bookingStatusFilter">
+                  <option value="all">Mind</option>
+                  <option value="pending">Függőben</option>
+                  <option value="confirmed">Megerősítve</option>
+                  <option value="cancelled">Lemondva</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Nyelv</span>
+                <select id="bookingLangFilter">
+                  <option value="all">Mind</option>
+                  <option value="hu">HU</option>
+                  <option value="de">DE</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Ügyfél</th>
+                  <th>Dátum</th>
+                  <th>Csomag</th>
+                  <th>Nyelv</th>
+                  <th>Státusz</th>
+                </tr>
+              </thead>
+              <tbody id="bookingRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="bookingEmpty">Nincs találat a jelenlegi szűrőkkel.</div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Részletek</p>
+              <h2>Kiválasztott foglalás</h2>
+            </div>
+          </div>
+          <div class="detail-placeholder" id="bookingDetailEmpty">Válassz ki egy foglalást a listából.</div>
+          <div class="detail-card hidden" id="bookingDetailCard">
+            <div>
+              <h3 class="detail-title" id="bookingDetailName"></h3>
+              <p class="list-secondary" id="bookingDetailMeta"></p>
+            </div>
+            <div class="detail-grid">
+              <div><span class="detail-meta-label">Email</span><strong class="detail-value" id="bookingDetailEmail"></strong></div>
+              <div><span class="detail-meta-label">Dátum</span><strong class="detail-value" id="bookingDetailDate"></strong></div>
+              <div><span class="detail-meta-label">Csomag</span><strong class="detail-value" id="bookingDetailPackage"></strong></div>
+              <div><span class="detail-meta-label">Státusz</span><span class="status-pill" id="bookingDetailStatus"></span></div>
+              <div><span class="detail-meta-label">Nyelv</span><strong class="detail-value" id="bookingDetailLang"></strong></div>
+              <div><span class="detail-meta-label">Érkezett</span><strong class="detail-value" id="bookingDetailCreated"></strong></div>
+            </div>
+            <div>
+              <span class="detail-meta-label">Üzenet</span>
+              <p class="detail-copy" id="bookingDetailMessage"></p>
+            </div>
+            <div class="detail-actions">
+              <button type="button" class="primary-btn" id="bookingConfirmBtn">Megerősítés</button>
+              <button type="button" class="ghost-btn" id="bookingPendingBtn">Vissza függőbe</button>
+              <button type="button" class="danger-btn" id="bookingCancelBtn">Lemondás</button>
+              <button type="button" class="ghost-btn" id="bookingCreateGalleryBtn">Galéria fiók létrehozása</button>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

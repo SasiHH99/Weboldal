@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólió Admin | B. Photography</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/global.js"></script>
+</head>
+<body class="admin-body" data-admin-view="portfolio">
+  <div class="admin-shell">
+    <header class="admin-topbar">
+      <div>
+        <p class="admin-eyebrow">B. Photography</p>
+        <h1>Portfólió</h1>
+      </div>
+      <div class="admin-topbar-actions">
+        <button type="button" class="ghost-btn" id="refreshAllBtn">Minden frissítése</button>
+        <button type="button" class="ghost-btn" id="logoutBtn">Kijelentkezés</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <nav class="admin-linkbar" aria-label="Admin navigáció">
+        <a class="admin-link" href="index.html">Dashboard</a>
+        <a class="admin-link" href="foglalasok.html">Foglalások</a>
+        <a class="admin-link" href="kapcsolatok.html">Kapcsolatok</a>
+        <a class="admin-link" href="galeria.html">Galéria</a>
+        <a class="admin-link is-active" href="portfolio.html">Portfólió</a>
+      </nav>
+
+      <section class="stats-grid" aria-label="Admin statisztikák">
+        <article class="stat-card"><span class="stat-label">Foglalások</span><strong class="stat-value" id="statBookings">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Kapcsolatok</span><strong class="stat-value" id="statContacts">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Galéria ügyfelek</span><strong class="stat-value" id="statGalleryUsers">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Portfólió elemek</span><strong class="stat-value" id="statPortfolioItems">0</strong></article>
+      </section>
+
+      <div class="feedback-banner hidden" id="globalFeedback"></div>
+
+      <section class="admin-grid">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Portfólió</p>
+              <h2>Új elem feltöltése</h2>
+            </div>
+          </div>
+          <div class="form-card">
+            <input type="hidden" id="portfolioItemId">
+            <input type="hidden" id="portfolioItemPath">
+            <div class="split-grid">
+              <label class="field">
+                <span>Kategória</span>
+                <select id="portfolioCategory">
+                  <option value="termeszet">Természet / Natur</option>
+                  <option value="varos">Város / Stadt</option>
+                  <option value="portre">Portré / Porträt</option>
+                  <option value="paros">Páros / Paar</option>
+                  <option value="baba">Baba / Baby</option>
+                  <option value="autos">Autós / Auto</option>
+                  <option value="ejszakai-kreativ">Éjszakai / Kreatív</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Nyelv</span>
+                <select id="portfolioLang">
+                  <option value="hu">Magyar</option>
+                  <option value="de">Deutsch</option>
+                  <option value="all">Mindkettő</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Cím</span>
+              <input type="text" id="portfolioTitle" placeholder="Kártyacím">
+            </label>
+            <label class="field">
+              <span>Megjegyzés / rövid leírás</span>
+              <textarea id="portfolioNote" placeholder="Ez jelenik meg a kártyán és a szűrési leírásban"></textarea>
+            </label>
+            <div class="split-grid">
+              <label class="field">
+                <span>Sorrend</span>
+                <input type="number" id="portfolioSortOrder" value="100">
+              </label>
+              <label class="field">
+                <span>Kép</span>
+                <input type="file" class="file-input" id="portfolioUploadInput" accept="image/*">
+              </label>
+            </div>
+            <div class="detail-actions">
+              <button type="button" class="primary-btn" id="portfolioSaveBtn">Mentés a portfólióba</button>
+              <button type="button" class="ghost-btn" id="portfolioResetBtn">Űrlap törlése</button>
+              <button type="button" class="danger-btn" id="portfolioDeleteBtn">Kiválasztott törlése</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Jelenlegi elemek</p>
+              <h2>Portfólió lista</h2>
+            </div>
+          </div>
+          <div class="asset-list" id="portfolioList"></div>
+          <div class="empty-state hidden" id="portfolioEmpty">Még nincs adminból kezelt portfólió elem.</div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

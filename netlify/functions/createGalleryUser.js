@@ -1,11 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE,
-  { auth: { autoRefreshToken: false, persistSession: false } }
-);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE, {
+  auth: { autoRefreshToken: false, persistSession: false }
+});
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -37,6 +35,25 @@ function normalizeEmail(email = "") {
 
 function isValidEmail(email = "") {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function createMailHtml({ subject, intro, email, password, ctaText, ctaUrl }) {
+  return `
+    <div style="font-family:Arial,sans-serif;background:#0f1117;color:#f3efe5;padding:32px;">
+      <div style="max-width:640px;margin:0 auto;background:#171a22;border:1px solid rgba(214,179,106,.18);border-radius:20px;padding:28px;">
+        <p style="margin:0 0 12px;color:#d6b36a;letter-spacing:.18em;text-transform:uppercase;font-size:12px;">B. Photography</p>
+        <h2 style="margin:0 0 18px;font-size:28px;color:#f3efe5;">${subject}</h2>
+        <p style="margin:0 0 24px;line-height:1.7;color:#ddd7ca;">${intro}</p>
+        <div style="margin:18px 0;padding:18px;border-radius:16px;background:#10131a;border:1px solid rgba(255,255,255,.06);">
+          <p style="margin:0 0 8px;color:#a9a396;">Email</p>
+          <p style="margin:0 0 16px;color:#f3efe5;">${email}</p>
+          <p style="margin:0 0 8px;color:#a9a396;">Jelszó / Passwort</p>
+          <p style="margin:0;color:#f3efe5;font-size:20px;letter-spacing:.08em;">${password}</p>
+        </div>
+        <a href="${ctaUrl}" style="display:inline-block;margin-top:8px;padding:14px 22px;border-radius:999px;background:#d6b36a;color:#16120c;text-decoration:none;font-weight:700;">${ctaText}</a>
+      </div>
+    </div>
+  `;
 }
 
 export const handler = async (event) => {
@@ -84,34 +101,27 @@ export const handler = async (event) => {
       if (/already|exists|registered/i.test(createError.message || "")) {
         return json(400, { error: "User already exists" });
       }
+
       return json(400, { error: createError.message });
     }
 
     const createdUserId = created?.user?.id || null;
-
     const resendApiKey = process.env.RESEND_API_KEY;
+    const from = process.env.GALLERY_FROM_EMAIL || "B. Photography <noreply@bphoto.at>";
+
     if (!resendApiKey) {
-      if (createdUserId) {
-        await supabase.auth.admin.deleteUser(createdUserId);
-      }
+      if (createdUserId) await supabase.auth.admin.deleteUser(createdUserId);
       return json(500, { error: "Missing RESEND_API_KEY env var" });
     }
 
-    const subject =
-      lang === "de" ? "Online Galerie Zugang" : "Online Galéria Hozzáférés";
-
+    const subject = lang === "de" ? "Dein Zugang zur Online Galerie" : "Hozzáférés az online galériához";
     const intro =
       lang === "de"
-        ? "Deine Online Galerie ist fertig."
-        : "Az online galériád elkészült.";
-
-    const ctaText =
-      lang === "de" ? "Zur Galerie" : "Belépés a galériába";
-
+        ? "Deine Galerie ist bereit. Mit den folgenden Zugangsdaten kannst du dich sofort einloggen."
+        : "A galériád elkészült. Az alábbi adatokkal azonnal beléphetsz.";
+    const ctaText = lang === "de" ? "Zur Galerie" : "Galéria megnyitása";
     const ctaUrl =
-      lang === "de"
-        ? "https://bphoto.at/de/galeria-login.html"
-        : "https://bphoto.at/hu/galeria-login.html";
+      lang === "de" ? "https://bphoto.at/de/galeria-login.html" : "https://bphoto.at/hu/galeria-login.html";
 
     const mailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -120,35 +130,28 @@ export const handler = async (event) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: "B. Photography <noreply@bphoto.at>",
+        from,
         to: email,
         subject,
-        html: `
-          <h2>${subject}</h2>
-          <p>${intro}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Jelszó / Passwort:</strong> ${password}</p>
-          <p><a href="${ctaUrl}">${ctaText}</a></p>
-        `
+        html: createMailHtml({ subject, intro, email, password, ctaText, ctaUrl })
       })
     });
 
     if (!mailResponse.ok) {
-      const errText = await mailResponse.text();
-
-      // Ha az email nem ment ki, töröljük a usert, hogy újrapróbálható legyen.
-      if (createdUserId) {
-        await supabase.auth.admin.deleteUser(createdUserId);
-      }
+      const details = await mailResponse.text();
+      if (createdUserId) await supabase.auth.admin.deleteUser(createdUserId);
 
       return json(502, {
         error: "Email send failed",
-        details: errText.slice(0, 300)
+        details: details.slice(0, 400)
       });
     }
 
     return json(200, { success: true });
-  } catch (err) {
-    return json(500, { error: "Server error", details: String(err?.message || err) });
+  } catch (error) {
+    return json(500, {
+      error: "Server error",
+      details: String(error?.message || error)
+    });
   }
 };

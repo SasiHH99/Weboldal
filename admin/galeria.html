@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galéria Admin | B. Photography</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/global.js"></script>
+</head>
+<body class="admin-body" data-admin-view="gallery">
+  <div class="admin-shell">
+    <header class="admin-topbar">
+      <div>
+        <p class="admin-eyebrow">B. Photography</p>
+        <h1>Galéria ügyfelek</h1>
+      </div>
+      <div class="admin-topbar-actions">
+        <button type="button" class="ghost-btn" id="refreshAllBtn">Minden frissítése</button>
+        <button type="button" class="ghost-btn" id="logoutBtn">Kijelentkezés</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <nav class="admin-linkbar" aria-label="Admin navigáció">
+        <a class="admin-link" href="index.html">Dashboard</a>
+        <a class="admin-link" href="foglalasok.html">Foglalások</a>
+        <a class="admin-link" href="kapcsolatok.html">Kapcsolatok</a>
+        <a class="admin-link is-active" href="galeria.html">Galéria</a>
+        <a class="admin-link" href="portfolio.html">Portfólió</a>
+      </nav>
+
+      <section class="stats-grid" aria-label="Admin statisztikák">
+        <article class="stat-card"><span class="stat-label">Foglalások</span><strong class="stat-value" id="statBookings">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Kapcsolatok</span><strong class="stat-value" id="statContacts">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Galéria ügyfelek</span><strong class="stat-value" id="statGalleryUsers">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Portfólió elemek</span><strong class="stat-value" id="statPortfolioItems">0</strong></article>
+      </section>
+
+      <div class="feedback-banner hidden" id="globalFeedback"></div>
+
+      <section class="admin-grid">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Galéria ügyfelek</p>
+              <h2>Fiók létrehozás és lista</h2>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div>
+              <h3 class="section-title">Új galériafiók</h3>
+              <p class="help-note">Az elküldött email automatikusan tartalmaz ideiglenes jelszót.</p>
+            </div>
+            <div class="split-grid">
+              <label class="field">
+                <span>Email</span>
+                <input type="email" id="galleryCreateEmail" placeholder="ugyfel@email.com">
+              </label>
+              <label class="field">
+                <span>Nyelv</span>
+                <select id="galleryCreateLang">
+                  <option value="hu">Magyar</option>
+                  <option value="de">Deutsch</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Megjegyzés</span>
+              <textarea id="galleryCreateNote" placeholder="Pl. melyik projektből jött, mire kell figyelni"></textarea>
+            </label>
+            <button type="button" class="primary-btn" id="galleryCreateBtn">Fiók létrehozása és email küldése</button>
+          </div>
+
+          <div class="toolbar">
+            <label class="field">
+              <span>Keresés</span>
+              <input type="search" id="galleryUserSearch" placeholder="Email vagy megjegyzés">
+            </label>
+          </div>
+
+          <div class="asset-list" id="galleryUserList"></div>
+          <div class="empty-state hidden" id="galleryUserEmpty">Nincs még galéria ügyfél.</div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Galéria kezelés</p>
+              <h2>Kiválasztott ügyfél</h2>
+            </div>
+          </div>
+          <div class="detail-placeholder" id="galleryDetailEmpty">Válassz ki egy galéria ügyfelet a listából.</div>
+          <div class="detail-card hidden" id="galleryDetailCard">
+            <div>
+              <h3 class="detail-title" id="galleryDetailEmail"></h3>
+              <p class="list-secondary" id="galleryDetailMeta"></p>
+            </div>
+            <div class="detail-grid">
+              <div><span class="detail-meta-label">Nyelv</span><strong class="detail-value" id="galleryDetailLang"></strong></div>
+              <div><span class="detail-meta-label">Utolsó belépés</span><strong class="detail-value" id="galleryDetailLastSignIn"></strong></div>
+              <div><span class="detail-meta-label">Utolsó jelszó küldés</span><strong class="detail-value" id="galleryDetailPasswordUpdated"></strong></div>
+            </div>
+            <label class="field">
+              <span>Felület nyelve</span>
+              <select id="galleryDetailLangSelect">
+                <option value="hu">Magyar</option>
+                <option value="de">Deutsch</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Belső megjegyzés</span>
+              <textarea id="galleryDetailNote"></textarea>
+            </label>
+            <div class="detail-actions">
+              <button type="button" class="primary-btn" id="gallerySaveMetaBtn">Megjegyzés mentése</button>
+              <button type="button" class="ghost-btn" id="galleryResetPasswordBtn">Új jelszó generálása és küldése</button>
+            </div>
+            <p class="help-note">Biztonsági okból a jelenlegi jelszó nem olvasható ki, csak új ideiglenes jelszó generálható.</p>
+
+            <div class="form-card">
+              <div>
+                <h3 class="section-title">Képek feltöltése</h3>
+                <p class="help-note">Több képet is kiválaszthatsz egyszerre.</p>
+              </div>
+              <input type="file" class="file-input" id="galleryUploadInput" multiple accept="image/*">
+              <button type="button" class="primary-btn" id="galleryUploadBtn">Képek feltöltése a galériába</button>
+            </div>
+
+            <div class="media-grid" id="galleryMediaGrid"></div>
+            <div class="empty-state hidden" id="galleryMediaEmpty">Ehhez az ügyfélhez még nincs feltöltött galériafájl.</div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,3 +1,29 @@
+﻿
+const STATUS_LABELS = {
+  pending: "Függőben",
+  confirmed: "Megerősítve",
+  cancelled: "Lemondva",
+  new: "Új",
+  reviewed: "Feldolgozott",
+  converted: "Galériává alakítva"
+};
+
+const LANG_LABELS = {
+  hu: "Magyar",
+  de: "Deutsch",
+  all: "Mindkettő"
+};
+
+const PORTFOLIO_CATEGORY_LABELS = {
+  termeszet: "Természet",
+  varos: "Város",
+  portre: "Portré",
+  paros: "Páros",
+  baba: "Baba",
+  autos: "Autós",
+  "ejszakai-kreativ": "Éjszakai / Kreatív"
+};
+
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -7,147 +33,995 @@ function escapeHtml(value = "") {
     .replaceAll("'", "&#39;");
 }
 
+function formatDate(value) {
+  if (!value) return "-";
+  const date = new Date(`${value}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return "-";
+  return new Intl.DateTimeFormat("hu-HU", { year: "numeric", month: "long", day: "numeric" }).format(date);
+}
+
+function formatDateTime(value) {
+  if (!value) return "-";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "-";
+  return new Intl.DateTimeFormat("hu-HU", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const supabase = window.supabaseClient;
   if (!supabase) return;
 
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    window.location.href = "login.html";
-    return;
+  const ui = {
+    refreshAllBtn: document.getElementById("refreshAllBtn"),
+    logoutBtn: document.getElementById("logoutBtn"),
+    globalFeedback: document.getElementById("globalFeedback"),
+    statBookings: document.getElementById("statBookings"),
+    statContacts: document.getElementById("statContacts"),
+    statGalleryUsers: document.getElementById("statGalleryUsers"),
+    statPortfolioItems: document.getElementById("statPortfolioItems"),
+    tabButtons: Array.from(document.querySelectorAll(".tab-btn[data-tab]")),
+    tabPanels: Array.from(document.querySelectorAll(".tab-panel[data-panel]")),
+    bookingSearch: document.getElementById("bookingSearch"),
+    bookingStatusFilter: document.getElementById("bookingStatusFilter"),
+    bookingLangFilter: document.getElementById("bookingLangFilter"),
+    bookingRows: document.getElementById("bookingRows"),
+    bookingEmpty: document.getElementById("bookingEmpty"),
+    bookingDetailEmpty: document.getElementById("bookingDetailEmpty"),
+    bookingDetailCard: document.getElementById("bookingDetailCard"),
+    bookingDetailName: document.getElementById("bookingDetailName"),
+    bookingDetailMeta: document.getElementById("bookingDetailMeta"),
+    bookingDetailEmail: document.getElementById("bookingDetailEmail"),
+    bookingDetailDate: document.getElementById("bookingDetailDate"),
+    bookingDetailPackage: document.getElementById("bookingDetailPackage"),
+    bookingDetailStatus: document.getElementById("bookingDetailStatus"),
+    bookingDetailLang: document.getElementById("bookingDetailLang"),
+    bookingDetailCreated: document.getElementById("bookingDetailCreated"),
+    bookingDetailMessage: document.getElementById("bookingDetailMessage"),
+    bookingConfirmBtn: document.getElementById("bookingConfirmBtn"),
+    bookingPendingBtn: document.getElementById("bookingPendingBtn"),
+    bookingCancelBtn: document.getElementById("bookingCancelBtn"),
+    bookingCreateGalleryBtn: document.getElementById("bookingCreateGalleryBtn"),
+    contactSearch: document.getElementById("contactSearch"),
+    contactStatusFilter: document.getElementById("contactStatusFilter"),
+    contactRows: document.getElementById("contactRows"),
+    contactEmpty: document.getElementById("contactEmpty"),
+    contactDetailEmpty: document.getElementById("contactDetailEmpty"),
+    contactDetailCard: document.getElementById("contactDetailCard"),
+    contactDetailName: document.getElementById("contactDetailName"),
+    contactDetailMeta: document.getElementById("contactDetailMeta"),
+    contactDetailLang: document.getElementById("contactDetailLang"),
+    contactDetailStatus: document.getElementById("contactDetailStatus"),
+    contactDetailCreated: document.getElementById("contactDetailCreated"),
+    contactDetailSource: document.getElementById("contactDetailSource"),
+    contactDetailMessage: document.getElementById("contactDetailMessage"),
+    contactAdminNote: document.getElementById("contactAdminNote"),
+    contactSaveBtn: document.getElementById("contactSaveBtn"),
+    contactReviewedBtn: document.getElementById("contactReviewedBtn"),
+    contactCreateGalleryBtn: document.getElementById("contactCreateGalleryBtn"),
+    contactReplyLink: document.getElementById("contactReplyLink"),
+    galleryCreateEmail: document.getElementById("galleryCreateEmail"),
+    galleryCreateLang: document.getElementById("galleryCreateLang"),
+    galleryCreateNote: document.getElementById("galleryCreateNote"),
+    galleryCreateBtn: document.getElementById("galleryCreateBtn"),
+    galleryUserSearch: document.getElementById("galleryUserSearch"),
+    galleryUserList: document.getElementById("galleryUserList"),
+    galleryUserEmpty: document.getElementById("galleryUserEmpty"),
+    galleryDetailEmpty: document.getElementById("galleryDetailEmpty"),
+    galleryDetailCard: document.getElementById("galleryDetailCard"),
+    galleryDetailEmail: document.getElementById("galleryDetailEmail"),
+    galleryDetailMeta: document.getElementById("galleryDetailMeta"),
+    galleryDetailLang: document.getElementById("galleryDetailLang"),
+    galleryDetailLastSignIn: document.getElementById("galleryDetailLastSignIn"),
+    galleryDetailPasswordUpdated: document.getElementById("galleryDetailPasswordUpdated"),
+    galleryDetailLangSelect: document.getElementById("galleryDetailLangSelect"),
+    galleryDetailNote: document.getElementById("galleryDetailNote"),
+    gallerySaveMetaBtn: document.getElementById("gallerySaveMetaBtn"),
+    galleryResetPasswordBtn: document.getElementById("galleryResetPasswordBtn"),
+    galleryUploadInput: document.getElementById("galleryUploadInput"),
+    galleryUploadBtn: document.getElementById("galleryUploadBtn"),
+    galleryMediaGrid: document.getElementById("galleryMediaGrid"),
+    galleryMediaEmpty: document.getElementById("galleryMediaEmpty"),
+    portfolioItemId: document.getElementById("portfolioItemId"),
+    portfolioItemPath: document.getElementById("portfolioItemPath"),
+    portfolioCategory: document.getElementById("portfolioCategory"),
+    portfolioLang: document.getElementById("portfolioLang"),
+    portfolioTitle: document.getElementById("portfolioTitle"),
+    portfolioNote: document.getElementById("portfolioNote"),
+    portfolioSortOrder: document.getElementById("portfolioSortOrder"),
+    portfolioUploadInput: document.getElementById("portfolioUploadInput"),
+    portfolioSaveBtn: document.getElementById("portfolioSaveBtn"),
+    portfolioResetBtn: document.getElementById("portfolioResetBtn"),
+    portfolioDeleteBtn: document.getElementById("portfolioDeleteBtn"),
+    portfolioList: document.getElementById("portfolioList"),
+    portfolioEmpty: document.getElementById("portfolioEmpty")
+  };
+
+  if (!ui.refreshAllBtn) return;
+
+  const state = {
+    activeTab: "bookings",
+    bookings: [],
+    contacts: [],
+    galleryUsers: [],
+    galleryFiles: [],
+    portfolioItems: [],
+    selectedBookingId: null,
+    selectedContactId: null,
+    selectedGalleryUserId: null,
+    selectedPortfolioId: null
+  };
+
+  function showFeedback(message, tone = "success") {
+    if (!message) {
+      clearFeedback();
+      return;
+    }
+    ui.globalFeedback.textContent = message;
+    ui.globalFeedback.dataset.tone = tone;
+    ui.globalFeedback.classList.remove("hidden");
   }
 
-  const user = session.user;
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (profileError || !profile || profile.role !== "admin") {
-    await supabase.auth.signOut();
-    window.location.href = "login.html";
-    return;
+  function clearFeedback() {
+    ui.globalFeedback.textContent = "";
+    ui.globalFeedback.removeAttribute("data-tone");
+    ui.globalFeedback.classList.add("hidden");
   }
 
-  const table = document.getElementById("bookingTable");
+  function getSelectedBooking() {
+    return state.bookings.find((booking) => String(booking.id) === String(state.selectedBookingId)) || null;
+  }
 
-  function setButtonsDisabled(tr, disabled) {
-    tr.querySelectorAll("button").forEach((btn) => {
-      btn.disabled = disabled;
-      btn.style.opacity = disabled ? "0.6" : "1";
-    });
+  function getSelectedContact() {
+    return state.contacts.find((contact) => String(contact.id) === String(state.selectedContactId)) || null;
+  }
+
+  function getSelectedGalleryUser() {
+    return state.galleryUsers.find((user) => user.id === state.selectedGalleryUserId) || null;
+  }
+
+  function getSelectedPortfolioItem() {
+    return state.portfolioItems.find((item) => String(item.id) === String(state.selectedPortfolioId)) || null;
+  }
+  async function getAccessToken() {
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+
+    if (!session?.access_token) {
+      throw new Error("A munkamenet lejárt. Jelentkezz be újra.");
+    }
+
+    return session.access_token;
+  }
+
+  async function callAdmin(path, options = {}) {
+    const token = await getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      ...(options.method === "GET" ? {} : { "Content-Type": "application/json" }),
+      ...(options.headers || {})
+    };
+
+    const response = await fetch(path, { ...options, headers });
+    const raw = await response.text();
+    let data = {};
+
+    if (raw) {
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        data = { error: raw.slice(0, 220) };
+      }
+    }
+
+    if (!response.ok) {
+      if (
+        response.status === 404
+        && path.startsWith("/.netlify/functions/")
+        && ["127.0.0.1", "localhost"].includes(window.location.hostname)
+        && window.location.port !== "8888"
+      ) {
+        throw new Error("A Netlify funkciók ebben a helyi előnézetben nem érhetők el.");
+      }
+
+      throw new Error(data.error || data.details || "Ismeretlen admin hiba történt.");
+    }
+
+    return data;
+  }
+
+  function updateStats() {
+    if (ui.statBookings) ui.statBookings.textContent = String(state.bookings.length);
+    if (ui.statContacts) ui.statContacts.textContent = String(state.contacts.length);
+    if (ui.statGalleryUsers) ui.statGalleryUsers.textContent = String(state.galleryUsers.length);
+    if (ui.statPortfolioItems) ui.statPortfolioItems.textContent = String(state.portfolioItems.length);
+  }
+
+  function ensureSelection(list, selectedId, getId) {
+    if (!list.length) return null;
+    const hasCurrent = list.some((item) => String(getId(item)) === String(selectedId));
+    return hasCurrent ? selectedId : getId(list[0]);
   }
 
   async function loadBookings() {
     const { data, error } = await supabase
       .from("bookings_v2")
       .select("*")
-      .order("booking_date", { ascending: true });
+      .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Load error:", error);
-      alert("Nem sikerült betölteni a foglalásokat.");
+    if (error) throw error;
+    state.bookings = data || [];
+    state.selectedBookingId = ensureSelection(state.bookings, state.selectedBookingId, (booking) => booking.id);
+  }
+
+  async function loadContacts() {
+    const data = await callAdmin("/.netlify/functions/admin-contact-messages", { method: "GET" });
+    state.contacts = data.messages || [];
+    state.selectedContactId = ensureSelection(state.contacts, state.selectedContactId, (contact) => contact.id);
+  }
+
+  async function loadGalleryUsers() {
+    const data = await callAdmin("/.netlify/functions/admin-gallery-users", { method: "GET" });
+    state.galleryUsers = data.users || [];
+    state.selectedGalleryUserId = ensureSelection(state.galleryUsers, state.selectedGalleryUserId, (user) => user.id);
+  }
+
+  async function loadPortfolioItems() {
+    const data = await callAdmin("/.netlify/functions/admin-portfolio-media", { method: "GET" });
+    state.portfolioItems = data.items || [];
+    state.selectedPortfolioId = ensureSelection(state.portfolioItems, state.selectedPortfolioId, (item) => item.id);
+  }
+
+  async function loadGalleryFiles(userId) {
+    if (!userId) {
+      state.galleryFiles = [];
       return;
     }
 
-    table.innerHTML = "";
+    const data = await callAdmin("/.netlify/functions/admin-gallery-media", {
+      method: "POST",
+      body: JSON.stringify({ action: "list", userId })
+    });
 
-    data.forEach((booking) => {
-      const tr = document.createElement("tr");
+    state.galleryFiles = data.files || [];
+  }
 
-      tr.innerHTML = `
-        <td>${escapeHtml(booking.name)}</td>
-        <td>${escapeHtml(booking.email)}</td>
-        <td>${escapeHtml(booking.booking_date)}</td>
-        <td>${escapeHtml(booking.package)}</td>
-        <td><span class="status ${escapeHtml(booking.status)}">${escapeHtml(booking.status)}</span></td>
-        <td>
-          <button class="btn btn-confirm">Confirm</button>
-          <button class="btn btn-cancel">Cancel</button>
-          <button class="btn btn-gallery">Galéria</button>
-        </td>
-      `;
-
-      tr.querySelector(".btn-confirm").addEventListener("click", async () => {
-        setButtonsDisabled(tr, true);
-        try {
-          await updateStatus(booking.id, "confirmed");
-        } finally {
-          setButtonsDisabled(tr, false);
-        }
-      });
-
-      tr.querySelector(".btn-cancel").addEventListener("click", async () => {
-        setButtonsDisabled(tr, true);
-        try {
-          await updateStatus(booking.id, "cancelled");
-        } finally {
-          setButtonsDisabled(tr, false);
-        }
-      });
-
-      tr.querySelector(".btn-gallery").addEventListener("click", async () => {
-        if (!confirm("Biztosan létrehozod a galéria hozzáférést?")) return;
-
-        setButtonsDisabled(tr, true);
-
-        try {
-          const { data: { session: latestSession } } = await supabase.auth.getSession();
-          const accessToken = latestSession?.access_token;
-
-          if (!accessToken) {
-            alert("Nincs érvényes admin session.");
-            return;
-          }
-
-          const response = await fetch("/.netlify/functions/createGalleryUser", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`
-            },
-            body: JSON.stringify({
-              email: booking.email,
-              lang: booking.lang || "hu"
-            })
-          });
-
-          const result = await response.json().catch(() => ({}));
-
-          if (!response.ok || result.error) {
-            alert(result.error || "Hiba történt.");
-            return;
-          }
-
-          alert("Galéria hozzáférés létrehozva és email elküldve.");
-        } catch (err) {
-          console.error("Gallery user create error:", err);
-          alert("Hiba történt a galéria hozzáférés létrehozásakor.");
-        } finally {
-          setButtonsDisabled(tr, false);
-        }
-      });
-
-      table.appendChild(tr);
+  function setActiveTab(tab) {
+    state.activeTab = tab;
+    ui.tabButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.tab === tab);
+    });
+    ui.tabPanels.forEach((panel) => {
+      panel.classList.toggle("is-active", panel.dataset.panel === tab);
     });
   }
 
-  async function updateStatus(id, newStatus) {
-    const { error } = await supabase
-      .from("bookings_v2")
-      .update({ status: newStatus })
-      .eq("id", id);
+  function renderBookings() {
+    if (!ui.bookingRows) return;
+    const query = ui.bookingSearch.value.trim().toLowerCase();
+    const status = ui.bookingStatusFilter.value;
+    const lang = ui.bookingLangFilter.value;
 
-    if (error) {
-      console.error("Update error:", error);
-      alert("Nem sikerült frissíteni az állapotot.");
+    const filtered = state.bookings.filter((booking) => {
+      const haystack = [booking.name, booking.email, booking.package, booking.message].filter(Boolean).join(" ").toLowerCase();
+      return (!query || haystack.includes(query))
+        && (status === "all" || booking.status === status)
+        && (lang === "all" || booking.lang === lang);
+    });
+
+    ui.bookingRows.innerHTML = filtered.map((booking) => `
+      <tr data-booking-id="${booking.id}" class="${String(booking.id) === String(state.selectedBookingId) ? "is-selected" : ""}">
+        <td><strong>${escapeHtml(booking.name || "-")}</strong><br><span class="list-secondary">${escapeHtml(booking.email || "-")}</span></td>
+        <td>${escapeHtml(formatDate(booking.booking_date))}</td>
+        <td>${escapeHtml(booking.package || "-")}</td>
+        <td>${escapeHtml(LANG_LABELS[booking.lang] || booking.lang || "-")}</td>
+        <td><span class="status-pill" data-status="${escapeHtml(booking.status || "")}">${escapeHtml(STATUS_LABELS[booking.status] || booking.status || "-")}</span></td>
+      </tr>
+    `).join("");
+
+    ui.bookingEmpty.classList.toggle("hidden", filtered.length > 0);
+
+    const booking = getSelectedBooking();
+    ui.bookingDetailEmpty.classList.toggle("hidden", !!booking);
+    ui.bookingDetailCard.classList.toggle("hidden", !booking);
+    if (!booking) return;
+
+    ui.bookingDetailName.textContent = booking.name || "-";
+    ui.bookingDetailMeta.textContent = `${booking.email || "-"} | #${booking.id}`;
+    ui.bookingDetailEmail.textContent = booking.email || "-";
+    ui.bookingDetailDate.textContent = formatDate(booking.booking_date);
+    ui.bookingDetailPackage.textContent = booking.package || "-";
+    ui.bookingDetailStatus.textContent = STATUS_LABELS[booking.status] || booking.status || "-";
+    ui.bookingDetailStatus.dataset.status = booking.status || "";
+    ui.bookingDetailLang.textContent = LANG_LABELS[booking.lang] || booking.lang || "-";
+    ui.bookingDetailCreated.textContent = formatDateTime(booking.created_at);
+    ui.bookingDetailMessage.textContent = booking.message || "Nincs külön üzenet.";
+  }
+
+  function renderContacts() {
+    if (!ui.contactRows) return;
+    const query = ui.contactSearch.value.trim().toLowerCase();
+    const status = ui.contactStatusFilter.value;
+
+    const filtered = state.contacts.filter((contact) => {
+      const haystack = [contact.name, contact.email, contact.message, contact.admin_note].filter(Boolean).join(" ").toLowerCase();
+      return (!query || haystack.includes(query)) && (status === "all" || contact.status === status);
+    });
+
+    ui.contactRows.innerHTML = filtered.map((contact) => `
+      <tr data-contact-id="${contact.id}" class="${String(contact.id) === String(state.selectedContactId) ? "is-selected" : ""}">
+        <td>${escapeHtml(contact.name || "-")}</td>
+        <td>${escapeHtml(contact.email || "-")}</td>
+        <td>${escapeHtml(LANG_LABELS[contact.lang] || contact.lang || "-")}</td>
+        <td><span class="status-pill" data-status="${escapeHtml(contact.status || "")}">${escapeHtml(STATUS_LABELS[contact.status] || contact.status || "-")}</span></td>
+        <td>${escapeHtml(formatDateTime(contact.created_at))}</td>
+      </tr>
+    `).join("");
+
+    ui.contactEmpty.classList.toggle("hidden", filtered.length > 0);
+
+    const contact = getSelectedContact();
+    ui.contactDetailEmpty.classList.toggle("hidden", !!contact);
+    ui.contactDetailCard.classList.toggle("hidden", !contact);
+    if (!contact) return;
+
+    ui.contactDetailName.textContent = contact.name || "-";
+    ui.contactDetailMeta.textContent = contact.email || "-";
+    ui.contactDetailLang.textContent = LANG_LABELS[contact.lang] || contact.lang || "-";
+    ui.contactDetailStatus.textContent = STATUS_LABELS[contact.status] || contact.status || "-";
+    ui.contactDetailStatus.dataset.status = contact.status || "";
+    ui.contactDetailCreated.textContent = formatDateTime(contact.created_at);
+    ui.contactDetailSource.textContent = contact.source || "contact_form";
+    ui.contactDetailMessage.textContent = contact.message || "-";
+    ui.contactAdminNote.value = contact.admin_note || "";
+    ui.contactReplyLink.href = `mailto:${contact.email || ""}?subject=${encodeURIComponent("B. Photography válasz")}`;
+  }
+
+  function renderGalleryUsers() {
+    if (!ui.galleryUserList) return;
+    const query = ui.galleryUserSearch.value.trim().toLowerCase();
+    const filtered = state.galleryUsers.filter((user) => {
+      const haystack = [user.email, user.note, user.lang].filter(Boolean).join(" ").toLowerCase();
+      return !query || haystack.includes(query);
+    });
+
+    ui.galleryUserList.innerHTML = filtered.map((user) => `
+      <article class="user-item ${user.id === state.selectedGalleryUserId ? "is-selected" : ""}" data-gallery-user-id="${escapeHtml(user.id)}">
+        <h3 class="list-title">${escapeHtml(user.email || "-")}</h3>
+        <p class="list-secondary">${escapeHtml(user.note || "Nincs megjegyzés")}</p>
+        <p class="list-secondary">${escapeHtml(LANG_LABELS[user.lang] || user.lang || "-")} | Létrehozva: ${escapeHtml(formatDateTime(user.createdAt))}</p>
+      </article>
+    `).join("");
+
+    ui.galleryUserEmpty.classList.toggle("hidden", filtered.length > 0);
+
+    const user = getSelectedGalleryUser();
+    ui.galleryDetailEmpty.classList.toggle("hidden", !!user);
+    ui.galleryDetailCard.classList.toggle("hidden", !user);
+    if (!user) return;
+
+    ui.galleryDetailEmail.textContent = user.email || "-";
+    ui.galleryDetailMeta.textContent = `Azonosító: ${user.id}`;
+    ui.galleryDetailLang.textContent = LANG_LABELS[user.lang] || user.lang || "-";
+    ui.galleryDetailLastSignIn.textContent = formatDateTime(user.lastSignInAt);
+    ui.galleryDetailPasswordUpdated.textContent = formatDateTime(user.passwordUpdatedAt);
+    ui.galleryDetailLangSelect.value = user.lang || "hu";
+    ui.galleryDetailNote.value = user.note || "";
+
+    ui.galleryMediaGrid.innerHTML = state.galleryFiles.map((file) => `
+      <article class="media-card">
+        <img src="${escapeHtml(file.url)}" alt="${escapeHtml(file.name)}">
+        <div class="media-card-body">
+          <strong>${escapeHtml(file.name)}</strong>
+          <p class="list-secondary">${escapeHtml(formatDateTime(file.createdAt))}</p>
+          <div class="media-card-actions">
+            <a class="ghost-btn inline-link" href="${escapeHtml(file.url)}" target="_blank" rel="noopener">Megnyitás</a>
+            <button type="button" class="danger-btn" data-gallery-delete-path="${escapeHtml(file.path)}">Törlés</button>
+          </div>
+        </div>
+      </article>
+    `).join("");
+
+    ui.galleryMediaEmpty.classList.toggle("hidden", state.galleryFiles.length > 0);
+  }
+
+  function renderPortfolio() {
+    if (!ui.portfolioList) return;
+    ui.portfolioList.innerHTML = state.portfolioItems.map((item) => `
+      <article class="portfolio-item ${String(item.id) === String(state.selectedPortfolioId) ? "is-selected" : ""}" data-portfolio-id="${item.id}">
+        ${item.url ? `<img class="portfolio-thumb" src="${escapeHtml(item.url)}" alt="${escapeHtml(item.title)}">` : ""}
+        <div>
+          <h3 class="list-title">${escapeHtml(item.title || "-")}</h3>
+          <p class="list-secondary">${escapeHtml(PORTFOLIO_CATEGORY_LABELS[item.category] || item.category || "-")} | ${escapeHtml(LANG_LABELS[item.lang] || item.lang || "-")}</p>
+          <p class="list-secondary">${escapeHtml(item.note || "-")}</p>
+        </div>
+      </article>
+    `).join("");
+
+    ui.portfolioEmpty.classList.toggle("hidden", state.portfolioItems.length > 0);
+    if (ui.portfolioDeleteBtn) {
+      ui.portfolioDeleteBtn.disabled = !getSelectedPortfolioItem();
+    }
+  }
+
+  function render() {
+    updateStats();
+    renderBookings();
+    renderContacts();
+    renderGalleryUsers();
+    renderPortfolio();
+  }
+
+  function resetPortfolioForm() {
+    if (!ui.portfolioItemId) return;
+    state.selectedPortfolioId = null;
+    ui.portfolioItemId.value = "";
+    ui.portfolioItemPath.value = "";
+    ui.portfolioCategory.value = "portre";
+    ui.portfolioLang.value = "hu";
+    ui.portfolioTitle.value = "";
+    ui.portfolioNote.value = "";
+    ui.portfolioSortOrder.value = "100";
+    ui.portfolioUploadInput.value = "";
+    renderPortfolio();
+  }
+
+  function populatePortfolioForm(item) {
+    if (!ui.portfolioItemId) return;
+    ui.portfolioItemId.value = item.id || "";
+    ui.portfolioItemPath.value = item.path || "";
+    ui.portfolioCategory.value = item.category || "portre";
+    ui.portfolioLang.value = item.lang || "hu";
+    ui.portfolioTitle.value = item.title || "";
+    ui.portfolioNote.value = item.note || "";
+    ui.portfolioSortOrder.value = String(item.sort_order || 100);
+    ui.portfolioUploadInput.value = "";
+  }
+  async function refreshAll(options = {}) {
+    const silent = options.silent === true;
+    const failures = [];
+    const localPreviewMissingFunctions = [];
+
+    if (!silent) clearFeedback();
+
+    ui.refreshAllBtn.disabled = true;
+    ui.refreshAllBtn.textContent = "Betöltés...";
+
+    const steps = [
+      ["foglalások", loadBookings],
+      ["kapcsolati üzenetek", loadContacts],
+      ["galéria ügyfelek", loadGalleryUsers],
+      ["portfólió elemek", loadPortfolioItems]
+    ];
+
+    for (const [label, run] of steps) {
+      try {
+        await run();
+      } catch (error) {
+        console.error(error);
+        failures.push(label);
+        if (String(error.message || "").includes("Netlify funkciók ebben a helyi előnézetben")) {
+          localPreviewMissingFunctions.push(label);
+        }
+      }
+    }
+
+    if (state.selectedGalleryUserId) {
+      try {
+        await loadGalleryFiles(state.selectedGalleryUserId);
+      } catch (error) {
+        console.error(error);
+        failures.push("galéria fájlok");
+        state.galleryFiles = [];
+        if (String(error.message || "").includes("Netlify funkciók ebben a helyi előnézetben")) {
+          localPreviewMissingFunctions.push("galéria fájlok");
+        }
+      }
+    } else {
+      state.galleryFiles = [];
+    }
+
+    updateStats();
+    render();
+
+    if (!silent) {
+      if (failures.length && localPreviewMissingFunctions.length === failures.length) {
+        showFeedback("Ebben a helyi 5500-as előnézetben a Netlify funkciók nem futnak. A foglalások látszanak, a kapcsolatok, galéria és portfólió admin Netlify Dev vagy éles domain alatt lesz teljes.", "success");
+      } else if (failures.length) {
+        showFeedback(`Részben sikerült a frissítés. Ezeket nem tudtam betölteni: ${failures.join(", ")}.`, "error");
+      } else {
+        showFeedback("Az admin adatok frissültek.");
+      }
+    }
+
+    ui.refreshAllBtn.disabled = false;
+    ui.refreshAllBtn.textContent = "Minden frissítése";
+  }
+
+  async function updateBookingStatus(nextStatus) {
+    const booking = getSelectedBooking();
+    if (!booking) return;
+
+    const { error } = await supabase.from("bookings_v2").update({ status: nextStatus }).eq("id", booking.id);
+    if (error) throw error;
+
+    booking.status = nextStatus;
+    renderBookings();
+    updateStats();
+  }
+
+  async function saveContact(statusOverride = null) {
+    const contact = getSelectedContact();
+    if (!contact) return;
+
+    const nextStatus = statusOverride || contact.status || "new";
+    const adminNote = ui.contactAdminNote.value.trim();
+
+    await callAdmin("/.netlify/functions/admin-contact-messages", {
+      method: "POST",
+      body: JSON.stringify({ id: contact.id, status: nextStatus, adminNote })
+    });
+
+    contact.status = nextStatus;
+    contact.admin_note = adminNote;
+    renderContacts();
+    updateStats();
+  }
+
+  async function createGalleryUser(email, lang, note) {
+    const data = await callAdmin("/.netlify/functions/admin-gallery-users", {
+      method: "POST",
+      body: JSON.stringify({ action: "create", email, lang, note })
+    });
+
+    await loadGalleryUsers();
+    state.selectedGalleryUserId = data.user?.id || state.selectedGalleryUserId;
+    await loadGalleryFiles(state.selectedGalleryUserId);
+    renderGalleryUsers();
+    updateStats();
+    setActiveTab("gallery");
+    return data.user;
+  }
+
+  async function createGalleryFromBooking() {
+    const booking = getSelectedBooking();
+    if (!booking) return;
+
+    const noteParts = [
+      `Foglalás #${booking.id}`,
+      booking.package ? `Csomag: ${booking.package}` : "",
+      booking.booking_date ? `Dátum: ${booking.booking_date}` : "",
+      booking.message || ""
+    ].filter(Boolean);
+
+    await createGalleryUser(booking.email, booking.lang, noteParts.join(" | "));
+    await updateBookingStatus("confirmed");
+    showFeedback("A foglaláshoz galériafiók készült, a jelszó emailben kiküldve.");
+  }
+
+  async function createGalleryFromContact() {
+    const contact = getSelectedContact();
+    if (!contact) return;
+
+    const noteParts = [
+      `Kapcsolat #${contact.id}`,
+      contact.admin_note || "",
+      contact.message || ""
+    ].filter(Boolean);
+
+    await createGalleryUser(contact.email, contact.lang, noteParts.join(" | "));
+    await saveContact("converted");
+    showFeedback("A kapcsolatfelvételhez galériafiók készült, a jelszó emailben kiküldve.");
+  }
+
+  async function saveGalleryMetadata() {
+    const user = getSelectedGalleryUser();
+    if (!user) return;
+
+    const data = await callAdmin("/.netlify/functions/admin-gallery-users", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "update",
+        userId: user.id,
+        lang: ui.galleryDetailLangSelect.value,
+        note: ui.galleryDetailNote.value.trim()
+      })
+    });
+
+    const index = state.galleryUsers.findIndex((item) => item.id === user.id);
+    if (index >= 0 && data.user) {
+      state.galleryUsers[index] = data.user;
+    }
+
+    renderGalleryUsers();
+    showFeedback("A galéria ügyfél adatai elmentve.");
+  }
+
+  async function resetGalleryPassword() {
+    const user = getSelectedGalleryUser();
+    if (!user) return;
+
+    await callAdmin("/.netlify/functions/admin-gallery-users", {
+      method: "POST",
+      body: JSON.stringify({ action: "reset_password", userId: user.id })
+    });
+
+    await loadGalleryUsers();
+    renderGalleryUsers();
+    showFeedback("Új ideiglenes jelszó készült és kiküldtem emailben.");
+  }
+
+  async function uploadGalleryFiles() {
+    const user = getSelectedGalleryUser();
+    const files = Array.from(ui.galleryUploadInput.files || []);
+
+    if (!user) throw new Error("Előbb válassz ki egy galéria ügyfelet.");
+    if (!files.length) throw new Error("Válassz ki legalább egy képfájlt a feltöltéshez.");
+
+    const data = await callAdmin("/.netlify/functions/admin-gallery-media", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "prepare_upload",
+        userId: user.id,
+        files: files.map((file) => ({ name: file.name }))
+      })
+    });
+
+    const uploads = data.uploads || [];
+    if (uploads.length !== files.length) {
+      throw new Error("Nem sikerült előkészíteni az összes galéria feltöltést.");
+    }
+
+    for (let index = 0; index < uploads.length; index += 1) {
+      const upload = uploads[index];
+      const file = files[index];
+      const { error } = await supabase.storage.from("client-galleries").uploadToSignedUrl(upload.path, upload.token, file);
+      if (error) throw error;
+    }
+
+    ui.galleryUploadInput.value = "";
+    await loadGalleryFiles(user.id);
+    renderGalleryUsers();
+    showFeedback("A galéria képei feltöltve.");
+  }
+
+  async function deleteGalleryFile(path) {
+    const user = getSelectedGalleryUser();
+    if (!user || !path) return;
+
+    await callAdmin("/.netlify/functions/admin-gallery-media", {
+      method: "POST",
+      body: JSON.stringify({ action: "delete", userId: user.id, path })
+    });
+
+    await loadGalleryFiles(user.id);
+    renderGalleryUsers();
+    showFeedback("A galéria kép törölve.");
+  }
+
+  async function savePortfolioItem() {
+    const title = ui.portfolioTitle.value.trim();
+    const note = ui.portfolioNote.value.trim();
+    const file = ui.portfolioUploadInput.files[0] || null;
+    const existingPath = ui.portfolioItemPath.value.trim();
+
+    if (!title || !note) {
+      throw new Error("A portfólió elemhez cím és rövid leírás is kell.");
+    }
+
+    let nextPath = existingPath;
+
+    if (file) {
+      const prep = await callAdmin("/.netlify/functions/admin-portfolio-media", {
+        method: "POST",
+        body: JSON.stringify({ action: "prepare_upload", category: ui.portfolioCategory.value, fileName: file.name })
+      });
+
+      const upload = prep.upload;
+      if (!upload?.path || !upload?.token) {
+        throw new Error("A portfólió kép feltöltése nem lett előkészítve.");
+      }
+
+      const { error } = await supabase.storage.from("portfolio-media").uploadToSignedUrl(upload.path, upload.token, file);
+      if (error) throw error;
+      nextPath = upload.path;
+    }
+
+    if (!nextPath) {
+      throw new Error("Új portfólió elemnél képet is fel kell töltened.");
+    }
+
+    const id = ui.portfolioItemId.value ? Number(ui.portfolioItemId.value) : undefined;
+    const data = await callAdmin("/.netlify/functions/admin-portfolio-media", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "save",
+        id,
+        previousPath: existingPath,
+        path: nextPath,
+        category: ui.portfolioCategory.value,
+        title,
+        note,
+        lang: ui.portfolioLang.value,
+        sortOrder: Number(ui.portfolioSortOrder.value || 100),
+        isActive: true
+      })
+    });
+
+    state.portfolioItems = data.items || [];
+    state.selectedPortfolioId = id ? id : (state.portfolioItems.find((item) => item.path === nextPath)?.id || state.selectedPortfolioId);
+    ui.portfolioItemPath.value = nextPath;
+    ui.portfolioUploadInput.value = "";
+    renderPortfolio();
+
+    if (state.selectedPortfolioId) {
+      const currentItem = getSelectedPortfolioItem();
+      if (currentItem) populatePortfolioForm(currentItem);
+    }
+
+    updateStats();
+    showFeedback("A portfólió elem mentve.");
+  }
+
+  async function deletePortfolioItem() {
+    const item = getSelectedPortfolioItem();
+    if (!item) return;
+
+    if (!window.confirm("Biztosan törlöd a kiválasztott portfólió elemet?")) {
       return;
     }
 
-    await loadBookings();
+    const data = await callAdmin("/.netlify/functions/admin-portfolio-media", {
+      method: "POST",
+      body: JSON.stringify({ action: "delete", id: item.id, path: item.path })
+    });
+
+    state.portfolioItems = data.items || [];
+    resetPortfolioForm();
+    updateStats();
+    renderPortfolio();
+    showFeedback("A portfólió elem törölve.");
+  }
+  function bindEvents() {
+    ui.tabButtons.forEach((button) => {
+      button.addEventListener("click", () => setActiveTab(button.dataset.tab));
+    });
+
+    [ui.bookingSearch, ui.bookingStatusFilter, ui.bookingLangFilter].filter(Boolean).forEach((element) => {
+      element.addEventListener("input", renderBookings);
+      element.addEventListener("change", renderBookings);
+    });
+
+    [ui.contactSearch, ui.contactStatusFilter].filter(Boolean).forEach((element) => {
+      element.addEventListener("input", renderContacts);
+      element.addEventListener("change", renderContacts);
+    });
+
+    ui.galleryUserSearch?.addEventListener("input", renderGalleryUsers);
+
+    ui.bookingRows?.addEventListener("click", (event) => {
+      const row = event.target.closest("[data-booking-id]");
+      if (!row) return;
+      state.selectedBookingId = row.dataset.bookingId;
+      renderBookings();
+    });
+
+    ui.contactRows?.addEventListener("click", (event) => {
+      const row = event.target.closest("[data-contact-id]");
+      if (!row) return;
+      state.selectedContactId = row.dataset.contactId;
+      renderContacts();
+    });
+
+    ui.galleryUserList?.addEventListener("click", async (event) => {
+      const card = event.target.closest("[data-gallery-user-id]");
+      if (!card) return;
+      state.selectedGalleryUserId = card.dataset.galleryUserId;
+      await loadGalleryFiles(state.selectedGalleryUserId);
+      renderGalleryUsers();
+    });
+
+    ui.galleryMediaGrid?.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-gallery-delete-path]");
+      if (!button) return;
+      if (!window.confirm("Biztosan törlöd ezt a galéria képet?")) return;
+
+      try {
+        await deleteGalleryFile(button.dataset.galleryDeletePath);
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült törölni a galéria képet.", "error");
+      }
+    });
+
+    ui.portfolioList?.addEventListener("click", (event) => {
+      const card = event.target.closest("[data-portfolio-id]");
+      if (!card) return;
+      state.selectedPortfolioId = card.dataset.portfolioId;
+      const item = getSelectedPortfolioItem();
+      if (item) populatePortfolioForm(item);
+      renderPortfolio();
+    });
+
+    ui.bookingConfirmBtn?.addEventListener("click", async () => {
+      try {
+        await updateBookingStatus("confirmed");
+        showFeedback("A foglalás megerősítve.");
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült módosítani a foglalást.", "error");
+      }
+    });
+
+    ui.bookingPendingBtn?.addEventListener("click", async () => {
+      try {
+        await updateBookingStatus("pending");
+        showFeedback("A foglalás visszaállítva függőbe.");
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült módosítani a foglalást.", "error");
+      }
+    });
+
+    ui.bookingCancelBtn?.addEventListener("click", async () => {
+      try {
+        await updateBookingStatus("cancelled");
+        showFeedback("A foglalás lemondottra állítva.");
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült módosítani a foglalást.", "error");
+      }
+    });
+
+    ui.bookingCreateGalleryBtn?.addEventListener("click", async () => {
+      try {
+        await createGalleryFromBooking();
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült galériafiókot létrehozni a foglaláshoz.", "error");
+      }
+    });
+
+    ui.contactSaveBtn?.addEventListener("click", async () => {
+      try {
+        await saveContact();
+        showFeedback("A kapcsolatfelvétel megjegyzése elmentve.");
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült menteni a kapcsolatfelvételt.", "error");
+      }
+    });
+
+    ui.contactReviewedBtn?.addEventListener("click", async () => {
+      try {
+        await saveContact("reviewed");
+        showFeedback("A kapcsolatfelvétel feldolgozottnak jelölve.");
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült menteni a kapcsolatfelvételt.", "error");
+      }
+    });
+
+    ui.contactCreateGalleryBtn?.addEventListener("click", async () => {
+      try {
+        await createGalleryFromContact();
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült galériafiókot létrehozni a kapcsolatfelvételhez.", "error");
+      }
+    });
+
+    ui.galleryCreateBtn?.addEventListener("click", async () => {
+      const email = ui.galleryCreateEmail.value.trim();
+      const lang = ui.galleryCreateLang.value;
+      const note = ui.galleryCreateNote.value.trim();
+
+      if (!email) {
+        showFeedback("A galériafiók létrehozásához email cím kell.", "error");
+        return;
+      }
+
+      try {
+        await createGalleryUser(email, lang, note);
+        ui.galleryCreateEmail.value = "";
+        ui.galleryCreateNote.value = "";
+        showFeedback("A galériafiók elkészült és a jelszó email kiküldve.");
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült létrehozni a galériafiókot.", "error");
+      }
+    });
+
+    ui.gallerySaveMetaBtn?.addEventListener("click", async () => {
+      try {
+        await saveGalleryMetadata();
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült menteni a galéria ügyfelet.", "error");
+      }
+    });
+
+    ui.galleryResetPasswordBtn?.addEventListener("click", async () => {
+      try {
+        await resetGalleryPassword();
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült új jelszót küldeni.", "error");
+      }
+    });
+
+    ui.galleryUploadBtn?.addEventListener("click", async () => {
+      try {
+        await uploadGalleryFiles();
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült feltölteni a galéria képeket.", "error");
+      }
+    });
+
+    ui.portfolioSaveBtn?.addEventListener("click", async () => {
+      try {
+        await savePortfolioItem();
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült menteni a portfólió elemet.", "error");
+      }
+    });
+
+    ui.portfolioResetBtn?.addEventListener("click", resetPortfolioForm);
+
+    ui.portfolioDeleteBtn?.addEventListener("click", async () => {
+      try {
+        await deletePortfolioItem();
+      } catch (error) {
+        console.error(error);
+        showFeedback(error.message || "Nem sikerült törölni a portfólió elemet.", "error");
+      }
+    });
+
+    ui.refreshAllBtn.addEventListener("click", () => {
+      refreshAll();
+    });
+
+    ui.logoutBtn.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      window.location.href = "login.html";
+    });
   }
 
-  loadBookings();
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", session.user.id)
+    .maybeSingle();
+
+  if (profileError || profile?.role !== "admin") {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+    return;
+  }
+
+  bindEvents();
+  setActiveTab("bookings");
+  await refreshAll();
+
+  const selectedPortfolio = getSelectedPortfolioItem();
+  if (selectedPortfolio) {
+    populatePortfolioForm(selectedPortfolio);
+  }
 });

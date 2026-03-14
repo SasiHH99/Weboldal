@@ -1,50 +1,80 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Belépés | B. Photography</title>
+  <link rel="stylesheet" href="admin.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/global.js"></script>
 </head>
-<body>
+<body class="admin-body admin-login-page">
+  <main class="login-shell">
+    <section class="login-card">
+      <p class="admin-eyebrow">Admin</p>
+      <h1>Bejelentkezés</h1>
+      <p class="login-copy">Itt csak az admin fiók férhet hozzá a foglalásokhoz és a kezeléshez.</p>
 
-<h2>Admin Bejelentkezés</h2>
+      <form id="loginForm" class="login-form">
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="email" autocomplete="username" required>
+        </label>
 
-<form id="loginForm">
-  <input type="email" id="email" placeholder="Email" required />
-  <br><br>
-  <input type="password" id="password" placeholder="Jelszó" required />
-  <br><br>
-  <button type="submit">Belépés</button>
-</form>
+        <label class="field">
+          <span>Jelszó</span>
+          <input type="password" id="password" autocomplete="current-password" required>
+        </label>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+        <div class="feedback-banner" id="loginFeedback" hidden></div>
 
-  const supabase = window.supabaseClient;
-  const form = document.getElementById("loginForm");
+        <button type="submit" class="primary-btn login-btn" id="loginBtn">Belépés</button>
+      </form>
+    </section>
+  </main>
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const supabase = window.supabaseClient;
+      const form = document.getElementById("loginForm");
+      const feedback = document.getElementById("loginFeedback");
+      const submitButton = document.getElementById("loginBtn");
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+      if (!supabase || !form) return;
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
+      const {
+        data: { session }
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        feedback.hidden = true;
+        submitButton.disabled = true;
+        submitButton.textContent = "Ellenőrzés...";
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          feedback.textContent = "Hibás email vagy jelszó.";
+          feedback.dataset.tone = "error";
+          feedback.hidden = false;
+          submitButton.disabled = false;
+          submitButton.textContent = "Belépés";
+          return;
+        }
+
+        window.location.href = "index.html";
+      });
     });
-
-    if (error) {
-      alert("Hibás email vagy jelszó");
-      return;
-    }
-
-    window.location.href = "index.html";
-  });
-
-});
-</script>
-
+  </script>
 </body>
 </html>

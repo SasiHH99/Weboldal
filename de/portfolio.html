@@ -1,303 +1,168 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Auswahl meiner fotografischen Arbeiten – Porträt-, Natur-, Stadt- und kreative Fotografie.">
-  <title>Portfolio | Premium Fotografie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- FAVICON -->
-  <link rel="icon" href="../favicon.png" type="image/x-icon">
-
-  <!-- CSS -->
+  <title>Portfolio Wien | B. Photography</title>
+  <meta name="description" content="Kuratiertes Portfolio mit Porträt-, Paar-, Baby-, Auto- und kreativen Fotos aus Wien und Umgebung.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bphoto.at/de/portfolio.html">
+  <link rel="alternate" hreflang="de" href="https://bphoto.at/de/portfolio.html">
+  <link rel="alternate" hreflang="hu" href="https://bphoto.at/hu/portfolio.html">
+  <link rel="alternate" hreflang="x-default" href="https://bphoto.at/de/portfolio.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="B. Photography">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="Portfolio Wien | B. Photography">
+  <meta property="og:description" content="Porträt-, Paar-, Baby-, Auto- und Kreativarbeiten aus Wien und Umgebung in einer kuratierten Auswahl.">
+  <meta property="og:url" content="https://bphoto.at/de/portfolio.html">
+  <meta property="og:image" content="https://bphoto.at/images/portfolio/portre/img1.webp">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/portfolio.css">
 </head>
+<body class="portfolio-page" data-portfolio-app data-lang="de">
+  <div id="site-header"></div>
 
-<body>
+  <main class="portfolio-shell">
+    <section class="portfolio-hero">
+      <div>
+        <p class="portfolio-kicker">B. Photography</p>
+        <h1 id="portfolioHeroTitle"></h1>
+        <p id="portfolioHeroCopy"></p>
+      </div>
 
-<!-- ===== HEADER ===== -->
-<div id="site-header"></div>
+      <div class="portfolio-hero-meta">
+        <article class="portfolio-stat">
+          <span class="portfolio-stat-label" id="portfolioTotalLabel"></span>
+          <strong id="portfolioTotalValue">0</strong>
+        </article>
 
-<!-- HERO -->
-<section class="portfolio-hero">
-  <div class="container">
-    <h1>PORTFOLIO</h1>
-    <p>Auswahl meiner Arbeiten</p>
-  </div>
-</section>
+        <article class="portfolio-stat">
+          <span class="portfolio-stat-label" id="portfolioCategoryLabel"></span>
+          <strong id="portfolioCategoryValue">-</strong>
+        </article>
+      </div>
+    </section>
 
-<!-- FILTER -->
-<section class="portfolio-filter">
-  <div class="container">
-    <div class="category-bar">
-      <button class="filter-btn active" data-filter="all">Alle</button>
-      <button class="filter-btn" data-filter="termeszet">Natur</button>
-      <button class="filter-btn" data-filter="varos">Stadt</button>
-      <button class="filter-btn" data-filter="portre">Porträt</button>
-      <button class="filter-btn" data-filter="paros">Paar</button>
-      <button class="filter-btn" data-filter="baba">Baby</button>
-      <button class="filter-btn" data-filter="autos">Auto</button>
-      <button class="filter-btn" data-filter="ejszakai-kreativ">Nacht / Kreativ</button>
+    <section class="portfolio-layout">
+      <aside class="portfolio-panel">
+        <div class="portfolio-note">
+          <p class="portfolio-note-title" id="portfolioNoteTitle"></p>
+          <h2 class="portfolio-note-value" id="portfolioCategoryValuePanel"></h2>
+          <p class="portfolio-note-copy" id="portfolioNoteCopy"></p>
+        </div>
+
+        <div class="portfolio-filters" id="portfolioFilters"></div>
+      </aside>
+
+      <div>
+        <div class="portfolio-grid" id="portfolioGrid">
+          <article class="portfolio-card" data-category="termeszet">
+            <img src="../images/portfolio/termeszet/img1.webp" loading="lazy" alt="Naturfoto 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Natur</span><strong>Weiches Licht und ruhige Bildstimmung</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="termeszet">
+            <img src="../images/portfolio/termeszet/img4.webp" loading="lazy" alt="Naturfoto 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Natur</span><strong>Zeitlose Atmosphäre mit echten Farben</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="termeszet">
+            <img src="../images/portfolio/termeszet/img10.webp" loading="lazy" alt="Naturfoto 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Natur</span><strong>Natürliches Licht, klare Komposition</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="varos">
+            <img src="../images/portfolio/varos/img1.webp" loading="lazy" alt="Stadtfoto 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Stadt</span><strong>Urbaner Rhythmus und Charakter</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="varos">
+            <img src="../images/portfolio/varos/img3.webp" loading="lazy" alt="Stadtfoto 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Stadt</span><strong>Echte Umgebung mit Präsenz</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="varos">
+            <img src="../images/portfolio/varos/img5.webp" loading="lazy" alt="Stadtfoto 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Stadt</span><strong>Person und Umgebung im Gleichgewicht</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="portre">
+            <img src="../images/portfolio/portre/img1.webp" loading="lazy" alt="Porträtfoto 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Porträt</span><strong>Klar, nahbar, präsent</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="portre">
+            <img src="../images/portfolio/portre/img3.webp" loading="lazy" alt="Porträtfoto 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Porträt</span><strong>Ruhige Führung vor der Kamera</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="portre">
+            <img src="../images/portfolio/portre/img5.webp" loading="lazy" alt="Porträtfoto 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Porträt</span><strong>Starke Bilder mit echtem Nutzen</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="paros">
+            <img src="../images/portfolio/paros/img1.webp" loading="lazy" alt="Paarfoto">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Paar</span><strong>Beziehung, Dynamik und echte Momente</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="baba">
+            <img src="../images/portfolio/baba/img1.webp" loading="lazy" alt="Babyfoto 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Baby</span><strong>Warm, weich und ruhig erzählt</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="baba">
+            <img src="../images/portfolio/baba/img4.webp" loading="lazy" alt="Babyfoto 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Baby</span><strong>Familiäre Nähe ohne künstliche Härte</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="baba">
+            <img src="../images/portfolio/baba/img7.webp" loading="lazy" alt="Babyfoto 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Baby</span><strong>Sanfte Farben und echte Emotionen</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="autos">
+            <img src="../images/portfolio/autos/img1.webp" loading="lazy" alt="Autofoto 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Auto</span><strong>Licht, Form, Oberfläche, Präsenz</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="autos">
+            <img src="../images/portfolio/autos/img2.webp" loading="lazy" alt="Autofoto 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Auto</span><strong>Klare Linien mit dynamischem Fokus</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="ejszakai-kreativ">
+            <img src="../images/portfolio/ejszakai-kreativ/img1.webp" loading="lazy" alt="Nachtfoto 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Nacht / Kreativ</span><strong>Atmosphäre, Kontrast, Charakter</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="ejszakai-kreativ">
+            <img src="../images/portfolio/ejszakai-kreativ/img2.webp" loading="lazy" alt="Nachtfoto 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Nacht / Kreativ</span><strong>Starker visueller Eindruck bei wenig Licht</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+          <article class="portfolio-card" data-category="ejszakai-kreativ">
+            <img src="../images/portfolio/ejszakai-kreativ/img3.webp" loading="lazy" alt="Nachtfoto 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Nacht / Kreativ</span><strong>Kreative Lichtführung mit Filmgefühl</strong></div><div class="portfolio-card-action">Öffnen</div></div>
+          </article>
+        </div>
+        <div class="portfolio-empty" id="portfolioEmpty" hidden></div>
+      </div>
+    </section>
+
+    <section class="portfolio-cta">
+      <h2 id="portfolioCtaTitle"></h2>
+      <p id="portfolioCtaCopy"></p>
+      <a id="portfolioCtaButton" class="portfolio-cta-btn" href="termin.html"></a>
+    </section>
+  </main>
+
+  <div class="portfolio-lightbox" id="portfolioLightbox">
+    <div class="portfolio-lightbox-inner">
+      <div class="portfolio-lightbox-top">
+        <div class="portfolio-lightbox-meta" id="portfolioLightboxMeta"></div>
+        <div class="portfolio-lightbox-actions">
+          <button type="button" class="portfolio-lightbox-btn" id="portfolioPrevBtn">Zurück</button>
+          <button type="button" class="portfolio-lightbox-btn" id="portfolioNextBtn">Weiter</button>
+          <button type="button" class="portfolio-lightbox-btn is-primary" id="portfolioCloseBtn">Schließen</button>
+        </div>
+      </div>
+
+      <div class="portfolio-lightbox-frame">
+        <img id="portfolioLightboxImage" alt="Portfolio Bild">
+      </div>
     </div>
   </div>
-</section>
 
-<!-- GALLERY -->
-<!-- GALLERY -->
-<section class="portfolio-gallery">
-  <div class="container">
-    <div class="gallery-grid">
-
-      <!-- TERMÉSZET / NATUR -->
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-1">
-        <img src="/images/portfolio/termeszet/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn liked"><span class="heart">❤</span><span class="like-count">2</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-2">
-        <img src="/images/portfolio/termeszet/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-3">
-        <img src="/images/portfolio/termeszet/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">2</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-4">
-        <img src="/images/portfolio/termeszet/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-5">
-        <img src="/images/portfolio/termeszet/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">1</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-6">
-        <img src="/images/portfolio/termeszet/img6.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">1</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-9">
-        <img src="/images/portfolio/termeszet/img9.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-10">
-        <img src="/images/portfolio/termeszet/img10.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">1</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-11">
-        <img src="/images/portfolio/termeszet/img11.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-12">
-        <img src="/images/portfolio/termeszet/img12.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-13">
-        <img src="/images/portfolio/termeszet/img13.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-14">
-        <img src="/images/portfolio/termeszet/img14.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <!-- VÁROS / STADT -->
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-1">
-        <img src="/images/portfolio/varos/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-2">
-        <img src="/images/portfolio/varos/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-3">
-        <img src="/images/portfolio/varos/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-4">
-        <img src="/images/portfolio/varos/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-5">
-        <img src="/images/portfolio/varos/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <!-- PORTRÉ / PORTRÄT -->
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-1">
-        <img src="/images/portfolio/portre/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-2">
-        <img src="/images/portfolio/portre/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-3">
-        <img src="/images/portfolio/portre/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-4">
-        <img src="/images/portfolio/portre/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-5">
-        <img src="/images/portfolio/portre/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-6">
-        <img src="/images/portfolio/portre/img6.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <!-- BABA / BABY -->
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-1">
-        <img src="/images/portfolio/baba/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-2">
-        <img src="/images/portfolio/baba/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-3">
-        <img src="/images/portfolio/baba/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-4">
-        <img src="/images/portfolio/baba/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-5">
-        <img src="/images/portfolio/baba/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-6">
-        <img src="/images/portfolio/baba/img6.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-7">
-        <img src="/images/portfolio/baba/img7.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <!-- AUTÓS / AUTO -->
-      <div class="gallery-item" data-category="autos" data-photo-id="autos-1">
-        <img src="/images/portfolio/autos/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="autos" data-photo-id="autos-2">
-        <img src="/images/portfolio/autos/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <!-- ÉJSZAKAI / NACHT & KREATIV -->
-      <div class="gallery-item" data-category="ejszakai-kreativ" data-photo-id="ejszakai-1">
-        <img src="/images/portfolio/ejszakai-kreativ/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="ejszakai-kreativ" data-photo-id="ejszakai-2">
-        <img src="/images/portfolio/ejszakai-kreativ/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="ejszakai-kreativ" data-photo-id="ejszakai-3">
-        <img src="/images/portfolio/ejszakai-kreativ/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">ÖFFNEN</div></div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<div class="portfolio-cta">
-  <h3>Gefällt dir mein Stil?</h3>
-  <a href="termin.html">Termin buchen</a>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <p>© 2026 B. Photography – Alle Rechte vorbehalten.</p>
-  <p style="margin-top:10px;font-size:0.65rem;letter-spacing:0.25em;">
-    <a href="datenschutz.html" style="color:#f5dc9c;">Datenschutzerklärung</a>
-  </p>
-</footer>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <span class="lightbox-close">&times;</span>
-  <img class="lightbox-image" src="" alt="">
-  <div class="lightbox-nav">
-    <span class="lightbox-prev">&#10094;</span>
-    <span class="lightbox-next">&#10095;</span>
-  </div>
-</div>
-
-<!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/header.js"></script>
-<script src="../js/global.js"></script>
-<script src="../js/portfolio.js"></script>
-
+  <script src="../js/header.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="../js/portfolio.js"></script>
 </body>
 </html>
+
+

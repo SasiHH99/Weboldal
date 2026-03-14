@@ -1,325 +1,168 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-
-  <!-- SEO -->
-  <title>Fotó portfólió | Portré · Páros · Kreatív fotózás – B. Photography</title>
-  <meta name="description" content="Fotó portfólió portré-, páros-, baba-, autós és kreatív fotókból. Prémium fotózás Ausztriában, egyedi stílusban.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fotóportfólió Bécs | B. Photography</title>
+  <meta name="description" content="Válogatott portré, páros, baba, autós és kreatív portfólióképek Bécsből és környékéről.">
   <meta name="robots" content="index, follow">
-
-  <!-- CANONICAL -->
   <link rel="canonical" href="https://bphoto.at/hu/portfolio.html">
-
-  <!-- HREFLANG -->
   <link rel="alternate" hreflang="hu" href="https://bphoto.at/hu/portfolio.html">
   <link rel="alternate" hreflang="de" href="https://bphoto.at/de/portfolio.html">
-  <link rel="alternate" hreflang="x-default" href="https://bphoto.at/hu/portfolio.html">
-
-  <!-- OPEN GRAPH -->
+  <link rel="alternate" hreflang="x-default" href="https://bphoto.at/de/portfolio.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="B. Photography">
   <meta property="og:locale" content="hu_HU">
-  <meta property="og:title" content="Fotó portfólió – B. Photography">
-  <meta property="og:description" content="Válogatás prémium portré-, páros-, baba-, autós és kreatív fotókból.">
+  <meta property="og:title" content="Fotóportfólió Bécs | B. Photography">
+  <meta property="og:description" content="Portré, páros, baba, autós és kreatív fotózási munkák válogatott képei Bécsből és környékéről.">
   <meta property="og:url" content="https://bphoto.at/hu/portfolio.html">
-  <meta property="og:image" content="https://bphoto.at/images/og/cover.webp">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- FAVICON -->
-  <link rel="icon" href="../favicon.png" type="image/x-icon">
-
-  <!-- CSS -->
+  <meta property="og:image" content="https://bphoto.at/images/portfolio/portre/img1.webp">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/portfolio.css">
 </head>
+<body class="portfolio-page" data-portfolio-app data-lang="hu">
+  <div id="site-header"></div>
 
-<body>
+  <main class="portfolio-shell">
+    <section class="portfolio-hero">
+      <div>
+        <p class="portfolio-kicker">B. Photography</p>
+        <h1 id="portfolioHeroTitle"></h1>
+        <p id="portfolioHeroCopy"></p>
+      </div>
 
+      <div class="portfolio-hero-meta">
+        <article class="portfolio-stat">
+          <span class="portfolio-stat-label" id="portfolioTotalLabel"></span>
+          <strong id="portfolioTotalValue">0</strong>
+        </article>
 
-<!-- ===== HEADER (HU) ===== -->
-<div id="site-header"></div>
+        <article class="portfolio-stat">
+          <span class="portfolio-stat-label" id="portfolioCategoryLabel"></span>
+          <strong id="portfolioCategoryValue">-</strong>
+        </article>
+      </div>
+    </section>
 
-<!-- HERO -->
-<section class="portfolio-hero">
-  <div class="container">
-    <h1>PORTFÓLIÓ</h1>
-    <p>Válogatás a munkáimból</p>
-  </div>
-</section>
+    <section class="portfolio-layout">
+      <aside class="portfolio-panel">
+        <div class="portfolio-note">
+          <p class="portfolio-note-title" id="portfolioNoteTitle"></p>
+          <h2 class="portfolio-note-value" id="portfolioCategoryValuePanel"></h2>
+          <p class="portfolio-note-copy" id="portfolioNoteCopy"></p>
+        </div>
 
-<!-- FILTER -->
-<section class="portfolio-filter">
-  <div class="container">
-    <div class="category-bar">
-      <button class="filter-btn active" data-filter="all">Összes</button>
-      <button class="filter-btn" data-filter="termeszet">Természet</button>
-      <button class="filter-btn" data-filter="varos">Város</button>
-      <button class="filter-btn" data-filter="portre">Portré</button>
-      <button class="filter-btn" data-filter="paros">Páros</button>
-      <button class="filter-btn" data-filter="baba">Baba</button>
-      <button class="filter-btn" data-filter="autos">Autós</button>
-      <button class="filter-btn" data-filter="ejszakai-kreativ">Éjszakai / Kreatív</button>
+        <div class="portfolio-filters" id="portfolioFilters"></div>
+      </aside>
+
+      <div>
+        <div class="portfolio-grid" id="portfolioGrid">
+          <article class="portfolio-card" data-category="termeszet">
+            <img src="../images/portfolio/termeszet/img1.webp" loading="lazy" alt="Természet fotó 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Természet</span><strong>Puha, természetes fénykörülmények</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="termeszet">
+            <img src="../images/portfolio/termeszet/img4.webp" loading="lazy" alt="Természet fotó 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Természet</span><strong>Csendes, időtálló vizuális hangulat</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="termeszet">
+            <img src="../images/portfolio/termeszet/img10.webp" loading="lazy" alt="Természet fotó 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Természet</span><strong>Valódi fények, tiszta kompozíció</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="varos">
+            <img src="../images/portfolio/varos/img1.webp" loading="lazy" alt="Városi fotó 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Város</span><strong>Urbánus ritmus és karakter</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="varos">
+            <img src="../images/portfolio/varos/img3.webp" loading="lazy" alt="Városi fotó 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Város</span><strong>Életközeli helyszínek, erős jelenlét</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="varos">
+            <img src="../images/portfolio/varos/img5.webp" loading="lazy" alt="Városi fotó 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Város</span><strong>Környezet és személy összhangja</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="portre">
+            <img src="../images/portfolio/portre/img1.webp" loading="lazy" alt="Portré fotó 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Portré</span><strong>Letisztult, erős személyes jelenlét</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="portre">
+            <img src="../images/portfolio/portre/img3.webp" loading="lazy" alt="Portré fotó 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Portré</span><strong>Nyugodt vezetés a kamera előtt</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="portre">
+            <img src="../images/portfolio/portre/img5.webp" loading="lazy" alt="Portré fotó 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Portré</span><strong>Karakteres, használható képek</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="paros">
+            <img src="../images/portfolio/paros/img1.webp" loading="lazy" alt="Páros fotó">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Páros</span><strong>Kapcsolat, közös dinamika, valódi pillanatok</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="baba">
+            <img src="../images/portfolio/baba/img1.webp" loading="lazy" alt="Baba fotó 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Baba</span><strong>Meleg, finom és nyugodt képi világ</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="baba">
+            <img src="../images/portfolio/baba/img4.webp" loading="lazy" alt="Baba fotó 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Baba</span><strong>Őszinte családi közelség</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="baba">
+            <img src="../images/portfolio/baba/img7.webp" loading="lazy" alt="Baba fotó 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Baba</span><strong>Puha fények és természetes érzelmek</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="autos">
+            <img src="../images/portfolio/autos/img1.webp" loading="lazy" alt="Autós fotó 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Autós</span><strong>Fény, forma, felület, jelenlét</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="autos">
+            <img src="../images/portfolio/autos/img2.webp" loading="lazy" alt="Autós fotó 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Autós</span><strong>Dinamikus, tiszta képi fókusz</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="ejszakai-kreativ">
+            <img src="../images/portfolio/ejszakai-kreativ/img1.webp" loading="lazy" alt="Éjszakai kreatív fotó 1">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Éjszakai / Kreatív</span><strong>Hangulat, kontraszt, karakter</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="ejszakai-kreativ">
+            <img src="../images/portfolio/ejszakai-kreativ/img2.webp" loading="lazy" alt="Éjszakai kreatív fotó 2">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Éjszakai / Kreatív</span><strong>Erős vizuális jelenlét sötétben is</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+          <article class="portfolio-card" data-category="ejszakai-kreativ">
+            <img src="../images/portfolio/ejszakai-kreativ/img3.webp" loading="lazy" alt="Éjszakai kreatív fotó 3">
+            <div class="portfolio-card-overlay"><div class="portfolio-card-copy"><span>Éjszakai / Kreatív</span><strong>Kreatív fénykezelés, filmes hangulat</strong></div><div class="portfolio-card-action">Megnyitás</div></div>
+          </article>
+        </div>
+        <div class="portfolio-empty" id="portfolioEmpty" hidden></div>
+      </div>
+    </section>
+
+    <section class="portfolio-cta">
+      <h2 id="portfolioCtaTitle"></h2>
+      <p id="portfolioCtaCopy"></p>
+      <a id="portfolioCtaButton" class="portfolio-cta-btn" href="foglalas.html"></a>
+    </section>
+  </main>
+
+  <div class="portfolio-lightbox" id="portfolioLightbox">
+    <div class="portfolio-lightbox-inner">
+      <div class="portfolio-lightbox-top">
+        <div class="portfolio-lightbox-meta" id="portfolioLightboxMeta"></div>
+        <div class="portfolio-lightbox-actions">
+          <button type="button" class="portfolio-lightbox-btn" id="portfolioPrevBtn">Előző</button>
+          <button type="button" class="portfolio-lightbox-btn" id="portfolioNextBtn">Következő</button>
+          <button type="button" class="portfolio-lightbox-btn is-primary" id="portfolioCloseBtn">Bezár</button>
+        </div>
+      </div>
+
+      <div class="portfolio-lightbox-frame">
+        <img id="portfolioLightboxImage" alt="Portfólió kép">
+      </div>
     </div>
   </div>
-</section>
 
-<!-- GALLERY -->
-<section class="portfolio-gallery">
-  <div class="container">
-    <div class="gallery-grid">
- <!-- TERMÉSZET -->
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-1">
-        <img src="/images/portfolio/termeszet/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn liked"><span class="heart">❤</span><span class="like-count">2</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-2">
-        <img src="/images/portfolio/termeszet/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-3">
-        <img src="/images/portfolio/termeszet/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">2</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-4">
-        <img src="/images/portfolio/termeszet/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-5">
-        <img src="/images/portfolio/termeszet/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">1</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-6">
-        <img src="/images/portfolio/termeszet/img6.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">1</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-9">
-        <img src="/images/portfolio/termeszet/img9.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-10">
-        <img src="/images/portfolio/termeszet/img10.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">1</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-11">
-        <img src="/images/portfolio/termeszet/img11.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-12">
-        <img src="/images/portfolio/termeszet/img12.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-13">
-        <img src="/images/portfolio/termeszet/img13.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="termeszet" data-photo-id="termeszet-14">
-        <img src="/images/portfolio/termeszet/img14.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <!-- VÁROS -->
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-1">
-        <img src="/images/portfolio/varos/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-2">
-        <img src="/images/portfolio/varos/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-3">
-        <img src="/images/portfolio/varos/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-4">
-        <img src="/images/portfolio/varos/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="varos" data-photo-id="varos-5">
-        <img src="/images/portfolio/varos/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <!-- PORTRÉ -->
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-1">
-        <img src="/images/portfolio/portre/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-2">
-        <img src="/images/portfolio/portre/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-3">
-        <img src="/images/portfolio/portre/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-4">
-        <img src="/images/portfolio/portre/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-5">
-        <img src="/images/portfolio/portre/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="portre" data-photo-id="portre-6">
-        <img src="/images/portfolio/portre/img6.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <!-- BABA -->
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-1">
-        <img src="/images/portfolio/baba/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-2">
-        <img src="/images/portfolio/baba/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-3">
-        <img src="/images/portfolio/baba/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-4">
-        <img src="/images/portfolio/baba/img4.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-5">
-        <img src="/images/portfolio/baba/img5.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-6">
-        <img src="/images/portfolio/baba/img6.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="baba" data-photo-id="baba-7">
-        <img src="/images/portfolio/baba/img7.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <!-- AUTÓS -->
-      <div class="gallery-item" data-category="autos" data-photo-id="autos-1">
-        <img src="/images/portfolio/autos/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="autos" data-photo-id="autos-2">
-        <img src="/images/portfolio/autos/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <!-- ÉJSZAKAI / KREATÍV -->
-      <div class="gallery-item" data-category="ejszakai-kreativ" data-photo-id="ejszakai-1">
-        <img src="/images/portfolio/ejszakai-kreativ/img1.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="ejszakai-kreativ" data-photo-id="ejszakai-2">
-        <img src="/images/portfolio/ejszakai-kreativ/img2.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-      <div class="gallery-item" data-category="ejszakai-kreativ" data-photo-id="ejszakai-3">
-        <img src="/images/portfolio/ejszakai-kreativ/img3.webp" loading="lazy" decoding="async" alt="">
-        <button class="like-btn"><span class="heart">❤</span><span class="like-count">0</span></button>
-        <div class="card-overlay"><div class="card-action">MEGNYITÁS</div></div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<div class="portfolio-cta">
-  <h3>Tetszik a stílusom?</h3>
-  <a href="foglalas.html">Foglalj időpontot</a>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <p>© 2026 B. Photography – Minden jog fenntartva.</p>
-  <p style="margin-top:10px;font-size:0.65rem;letter-spacing:0.25em;">
-    <a href="privacy.html" style="color:#f5dc9c;">Adatkezelési tájékoztató</a>
-  </p>
-</footer>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <span class="lightbox-close">&times;</span>
-  <img class="lightbox-image" src="" alt="">
-  <div class="lightbox-nav">
-    <span class="lightbox-prev">&#10094;</span>
-    <span class="lightbox-next">&#10095;</span>
-  </div>
-</div>
-
-<!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/header.js"></script>
-<script src="../js/global.js"></script>
-<script src="../js/portfolio.js"></script>
-
+  <script src="../js/header.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="../js/portfolio.js"></script>
 </body>
 </html>
+
+

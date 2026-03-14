@@ -6,7 +6,9 @@ const TO_HU = {
   "kontakt.html": "kapcsolat.html",
   "galeria-login.html": "galeria-login.html",
   "galeria.html": "galeria.html",
-  "datenschutz.html": "privacy.html"
+  "datenschutz.html": "privacy.html",
+  "agb.html": "aszf.html",
+  "impressum.html": "impresszum.html"
 };
 
 const TO_DE = {
@@ -17,7 +19,9 @@ const TO_DE = {
   "kapcsolat.html": "kontakt.html",
   "galeria-login.html": "galeria-login.html",
   "galeria.html": "galeria.html",
-  "privacy.html": "datenschutz.html"
+  "privacy.html": "datenschutz.html",
+  "aszf.html": "agb.html",
+  "impresszum.html": "impressum.html"
 };
 
 function getRouteInfo() {

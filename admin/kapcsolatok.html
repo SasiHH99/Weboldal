@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kapcsolatok Admin | B. Photography</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/global.js"></script>
+</head>
+<body class="admin-body" data-admin-view="contacts">
+  <div class="admin-shell">
+    <header class="admin-topbar">
+      <div>
+        <p class="admin-eyebrow">B. Photography</p>
+        <h1>Kapcsolati üzenetek</h1>
+      </div>
+      <div class="admin-topbar-actions">
+        <button type="button" class="ghost-btn" id="refreshAllBtn">Minden frissítése</button>
+        <button type="button" class="ghost-btn" id="logoutBtn">Kijelentkezés</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <nav class="admin-linkbar" aria-label="Admin navigáció">
+        <a class="admin-link" href="index.html">Dashboard</a>
+        <a class="admin-link" href="foglalasok.html">Foglalások</a>
+        <a class="admin-link is-active" href="kapcsolatok.html">Kapcsolatok</a>
+        <a class="admin-link" href="galeria.html">Galéria</a>
+        <a class="admin-link" href="portfolio.html">Portfólió</a>
+      </nav>
+
+      <section class="stats-grid" aria-label="Admin statisztikák">
+        <article class="stat-card"><span class="stat-label">Foglalások</span><strong class="stat-value" id="statBookings">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Kapcsolatok</span><strong class="stat-value" id="statContacts">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Galéria ügyfelek</span><strong class="stat-value" id="statGalleryUsers">0</strong></article>
+        <article class="stat-card"><span class="stat-label">Portfólió elemek</span><strong class="stat-value" id="statPortfolioItems">0</strong></article>
+      </section>
+
+      <div class="feedback-banner hidden" id="globalFeedback"></div>
+
+      <section class="workspace-grid">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Kapcsolat</p>
+              <h2>Beérkező üzenetek</h2>
+            </div>
+            <div class="toolbar">
+              <label class="field">
+                <span>Keresés</span>
+                <input type="search" id="contactSearch" placeholder="Név, email, üzenet">
+              </label>
+              <label class="field">
+                <span>Státusz</span>
+                <select id="contactStatusFilter">
+                  <option value="all">Mind</option>
+                  <option value="new">Új</option>
+                  <option value="reviewed">Feldolgozott</option>
+                  <option value="converted">Galériává alakítva</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Név</th>
+                  <th>Email</th>
+                  <th>Nyelv</th>
+                  <th>Státusz</th>
+                  <th>Érkezett</th>
+                </tr>
+              </thead>
+              <tbody id="contactRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="contactEmpty">Nincs találat.</div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Részletek</p>
+              <h2>Kiválasztott kapcsolat</h2>
+            </div>
+          </div>
+          <div class="detail-placeholder" id="contactDetailEmpty">Válassz ki egy üzenetet a listából.</div>
+          <div class="detail-card hidden" id="contactDetailCard">
+            <div>
+              <h3 class="detail-title" id="contactDetailName"></h3>
+              <p class="list-secondary" id="contactDetailMeta"></p>
+            </div>
+            <div class="detail-grid">
+              <div><span class="detail-meta-label">Nyelv</span><strong class="detail-value" id="contactDetailLang"></strong></div>
+              <div><span class="detail-meta-label">Státusz</span><span class="status-pill" id="contactDetailStatus"></span></div>
+              <div><span class="detail-meta-label">Érkezett</span><strong class="detail-value" id="contactDetailCreated"></strong></div>
+              <div><span class="detail-meta-label">Forrás</span><strong class="detail-value" id="contactDetailSource"></strong></div>
+            </div>
+            <div>
+              <span class="detail-meta-label">Üzenet</span>
+              <p class="detail-copy" id="contactDetailMessage"></p>
+            </div>
+            <label class="field">
+              <span>Admin megjegyzés</span>
+              <textarea id="contactAdminNote" placeholder="Belső jegyzet ehhez az érdeklődéshez"></textarea>
+            </label>
+            <div class="detail-actions">
+              <button type="button" class="ghost-btn" id="contactSaveBtn">Megjegyzés mentése</button>
+              <button type="button" class="primary-btn" id="contactReviewedBtn">Feldolgozottnak jelölöm</button>
+              <button type="button" class="ghost-btn" id="contactCreateGalleryBtn">Galéria fiók létrehozása</button>
+              <a class="inline-link" id="contactReplyLink" href="#">Email írása</a>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

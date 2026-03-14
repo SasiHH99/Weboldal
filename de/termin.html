@@ -1,156 +1,222 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Termin buchen | Premium Fotoshooting</title>
-
-  <meta name="description" content="Premium Portrait-, Paar- und kreative Fotoshootings in Österreich. Online Terminbuchung.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="icon" href="../favicon.png" type="image/x-icon">
-
+  <title>Termin anfragen Fotoshooting Wien | B. Photography</title>
+  <meta name="description" content="Premium-Fotoshooting in Wien anfragen für Portrait, Paar, Branding und kreative Serien.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bphoto.at/de/termin.html">
+  <link rel="alternate" hreflang="de" href="https://bphoto.at/de/termin.html">
+  <link rel="alternate" hreflang="hu" href="https://bphoto.at/hu/foglalas.html">
+  <link rel="alternate" hreflang="x-default" href="https://bphoto.at/de/termin.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="B. Photography">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="Termin anfragen Fotoshooting Wien | B. Photography">
+  <meta property="og:description" content="Wunschdatum senden und ein hochwertiges Fotoshooting in Wien oder Umgebung anfragen.">
+  <meta property="og:url" content="https://bphoto.at/de/termin.html">
+  <meta property="og:image" content="https://bphoto.at/images/hero/hero3.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Premium Fotoshooting in Wien",
+    "provider": {
+      "@type": "ProfessionalService",
+      "name": "B. Photography",
+      "email": "busi.sandor@bphoto.at"
+    },
+    "areaServed": ["Wien", "Österreich"],
+    "serviceType": ["Portraitfotografie", "Paarfotografie", "Kreativfotografie", "Brandingfotografie"],
+    "url": "https://bphoto.at/de/termin.html"
+  }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/foglalas.css">
 </head>
-
 <body>
+  <div id="site-header"></div>
 
-<div id="site-header"></div>
-
-<section class="booking-section">
-
-  <div class="booking-title">
-    <h1>TERMIN BUCHEN</h1>
-  </div>
-
-  <div class="booking-info">
-    <h2>So läuft das Fotoshooting ab</h2>
-    <ol>
-      <li>Wähle dein gewünschtes Datum</li>
-      <li>Du erhältst innerhalb von 24 Stunden eine Bestätigung</li>
-      <li>Wir planen gemeinsam die Location</li>
-      <li>Fotoshooting am vereinbarten Ort</li>
-      <li>Professionelle Bildbearbeitung</li>
-    </ol>
-
-    <p class="booking-trust">
-      ✓ Keine Anzahlung<br>
-      ✓ Persönliche Betreuung<br>
-      ✓ Flexible Terminvereinbarung
-    </p>
-
-    <p class="booking-scarcity">
-      Pro Woche sind nur begrenzte Termine verfügbar.
-    </p>
-  </div>
-
-  <div class="booking-grid booking-grid--calendar">
-
-    <form class="booking-form" id="bookingForm">
-
-      <input type="hidden" name="date" id="selectedDate">
-
-      <label>Paket auswählen</label>
-
-      <div class="package-dropdown">
-        <select name="package" id="packageSelect" required>
-          <option value="">Paket auswählen</option>
-          <option value="Essence">Essence – 97€</option>
-          <option value="Signature">Signature – 167€ (Am beliebtesten)</option>
-          <option value="Prestige">Prestige – 219€</option>
-          <option value="Event">Individuelles Angebot / Event</option>
-          <option value="Custom">Ich bin mir noch nicht sicher</option>
-        </select>
-
-        <div class="package-info" id="packageInfo">
-          Wähle ein Paket aus, um Details zu sehen.
-        </div>
-      </div>
-
-      <h3>Buchung</h3>
-
-      <label>Name
-        <input type="text" name="name" required>
-      </label>
-
-      <label>E-Mail
-        <input type="email" name="email" required>
-        <small class="form-hint">Hierhin sende ich die Bestätigung</small>
-      </label>
-
-      <label>Nachricht
-        <textarea name="message"></textarea>
-      </label>
-
-      <div class="gdpr-row">
-        <label class="gdpr-checkbox">
-          <input type="checkbox" id="gdpr" required>
-          <span class="checkmark"></span>
-          <span class="gdpr-text">
-            Ich akzeptiere die
-            <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a>
-          </span>
-        </label>
-      </div>
-
-      <button type="submit" class="cta-btn" disabled>
-        TERMIN ANFRAGEN
-      </button>
-
-    </form>
-
-    <div class="calendar-box">
-      <h4>Datum auswählen</h4>
-
-      <div class="calendar-header">
-        <button type="button" id="prevMonth">‹</button>
-        <span id="calendarMonth"></span>
-        <button type="button" id="nextMonth">›</button>
-      </div>
-
-      <div class="calendar-grid" id="calendarGrid"></div>
-
-      <p id="selectedDateText" class="calendar-selected">
-        Kein Datum ausgewählt
+  <main class="booking-section">
+    <section class="booking-hero">
+      <p class="booking-kicker">B. Photography</p>
+      <h1>Premium Fotoshooting in Wien anfragen, statt nur einen Kalenderslot zu klicken.</h1>
+      <p class="booking-hero-copy">
+        Wähle dein Paket, nenne dein Wunschdatum und beschreibe kurz dein Ziel. Den Rest klären wir persönlich, damit aus deiner Anfrage in Wien oder Umgebung ein starkes, ruhiges Shooting wird.
       </p>
-    </div>
 
+      <div class="booking-hero-meta">
+        <article class="booking-meta-card">
+          <span class="booking-meta-label">Antwort</span>
+          <strong>innerhalb von 24h</strong>
+        </article>
+        <article class="booking-meta-card">
+          <span class="booking-meta-label">Ablauf</span>
+          <strong>persönliche Abstimmung</strong>
+        </article>
+        <article class="booking-meta-card">
+          <span class="booking-meta-label">Übergabe</span>
+          <strong>Online-Galerie</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="booking-process">
+      <p class="booking-card-kicker">Ablauf</p>
+      <h2>So wird aus der Anfrage ein klares Shooting</h2>
+      <div class="booking-process-grid">
+        <article class="booking-step">
+          <span class="booking-step-index">01</span>
+          <h3>Anfrage</h3>
+          <p>Du wählst ein Paket, setzt ein Wunschdatum und schreibst kurz, was du brauchst.</p>
+        </article>
+        <article class="booking-step">
+          <span class="booking-step-index">02</span>
+          <h3>Abstimmung</h3>
+          <p>Wir klären Ort, Stil, Outfit, Ziel und alle Details, bevor wir final terminieren.</p>
+        </article>
+        <article class="booking-step">
+          <span class="booking-step-index">03</span>
+          <h3>Shooting</h3>
+          <p>Das Shooting läuft geführt und ruhig ab, damit starke und wirklich nutzbare Bilder entstehen.</p>
+        </article>
+        <article class="booking-step">
+          <span class="booking-step-index">04</span>
+          <h3>Übergabe</h3>
+          <p>Die finalen, bearbeiteten Bilder erhältst du ordentlich sortiert in deiner Online-Galerie.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="booking-layout">
+      <section class="booking-form-shell">
+        <div class="booking-form-card">
+          <div>
+            <p class="booking-card-kicker">Buchungsanfrage</p>
+            <h2>Kurz, klar, direkt</h2>
+            <p class="booking-form-intro">Je klarer dein Ziel ist, desto besser kann ich das Shooting im Vorfeld aufbauen.</p>
+          </div>
+
+          <form id="bookingForm" class="booking-form-grid">
+            <label class="booking-field">
+              <span class="booking-field-label">Paket</span>
+              <select name="package" id="packageSelect" required>
+                <option value="">Paket wählen</option>
+                <option value="Essence">Essence - 97 EUR</option>
+                <option value="Signature">Signature - 167 EUR</option>
+                <option value="Prestige">Prestige - 219 EUR</option>
+                <option value="Event">Individuelles Angebot / Event</option>
+                <option value="Custom">Ich bin noch unsicher</option>
+              </select>
+            </label>
+
+            <label class="booking-field">
+              <span class="booking-field-label">Wunschdatum</span>
+              <input type="date" name="booking_date" id="bookingDate" required>
+            </label>
+
+            <div class="booking-field is-full">
+              <div class="package-info" id="packageInfo">Nach der Paketauswahl siehst du hier kurz, wofür es am besten passt.</div>
+            </div>
+
+            <label class="booking-field">
+              <span class="booking-field-label">Name</span>
+              <input type="text" name="name" required>
+            </label>
+
+            <label class="booking-field">
+              <span class="booking-field-label">E-Mail</span>
+              <input type="email" name="email" required>
+              <small class="form-hint">An diese Adresse sende ich dir die Rückmeldung.</small>
+            </label>
+
+            <label class="booking-field is-full">
+              <span class="booking-field-label">Nachricht</span>
+              <textarea name="message" placeholder="Beschreibe kurz, welches Shooting du willst, wo du es dir vorstellst und wofür du die Bilder brauchst."></textarea>
+            </label>
+
+            <div class="booking-field is-full">
+              <div class="gdpr-row">
+                <label class="gdpr-checkbox">
+                  <input type="checkbox" id="gdpr" required>
+                  <span class="checkmark"></span>
+                  <span class="gdpr-text">Ich akzeptiere die <a href="datenschutz.html" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a>.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="booking-field is-full">
+              <button type="submit" class="cta-btn" id="bookingSubmit" disabled>Termin anfragen</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="booking-side-card">
+        <div>
+          <p class="booking-card-kicker">Wann ist das ideal?</p>
+          <h3>Wenn du keinen starren Slot, sondern eine gute Vorbereitung willst</h3>
+        </div>
+
+        <ul class="booking-info-list">
+          <li>du musst nicht unnötig in einem Kalenderfenster hängen bleiben</li>
+          <li>auch individuelle Projekte lassen sich hier sauber anfragen</li>
+          <li>wir klären zuerst das Ziel und fixieren dann den genauen Termin</li>
+        </ul>
+
+        <div class="booking-side-meta">
+          <div>
+            <span class="booking-meta-label">Stärkste Wahl</span>
+            <strong>Signature</strong>
+            <p>Wenn du mehrere Bildtypen oder einen starken Gesamtauftritt brauchst, ist das meist der beste Einstieg.</p>
+          </div>
+          <div>
+            <span class="booking-meta-label">Sonderfall</span>
+            <strong>Event / Custom</strong>
+            <p>Wenn dein Projekt nicht in ein fixes Paket passt, starten wir hier trotzdem sauber mit einer individuellen Anfrage.</p>
+          </div>
+        </div>
+
+        <a class="booking-side-btn" href="kontakt.html">Lieber zuerst schreiben</a>
+      </aside>
+    </section>
+  </main>
+
+  <div class="booking-success" id="bookingSuccess">
+    <div class="booking-success-card">
+      <div class="success-icon">✓</div>
+      <h2 class="thank-you-title">Anfrage gesendet</h2>
+      <p class="thank-you-text">Deine Anfrage ist eingegangen. Ich melde mich mit den nächsten Schritten.</p>
+      <p class="success-note">In der Regel antworte ich innerhalb von 24 Stunden.</p>
+      <button class="success-btn" id="successClose">OK</button>
+    </div>
   </div>
-</section>
 
-<div class="booking-success" id="bookingSuccess">
-  <div class="success-card">
-    <div class="success-icon">✓</div>
-    <div class="thank-you-title">ANFRAGE ERFOLGREICH GESENDET</div>
-    <div class="thank-you-text">
-      Deine Terminanfrage ist eingegangen.
+  <div class="booking-error" id="bookingError">
+    <div class="booking-error-card">
+      <div class="error-icon">!</div>
+      <h2 class="error-title">Fehler</h2>
+      <p class="error-text">Die Buchungsanfrage konnte gerade nicht gesendet werden. Bitte versuche es später erneut.</p>
+      <button class="error-btn" id="errorClose">Schließen</button>
     </div>
-    <div class="success-note">
-      Ich melde mich innerhalb von 24 Stunden bei dir.
-    </div>
-    <button class="success-btn" id="successClose">OK</button>
   </div>
-</div>
 
-<div class="booking-error" id="bookingError">
-  <div class="error-card">
-    <div class="error-icon">!</div>
-    <div class="error-title">FEHLER</div>
-    <div class="error-text">
-      Das Formular konnte nicht gesendet werden.
-    </div>
-    <button class="error-btn" id="errorClose">Schließen</button>
-  </div>
-</div>
-
-<footer class="footer">
+  <footer class="footer">
   <p>© 2026 B. Photography – Alle Rechte vorbehalten.</p>
+  <div class="footer-links">
+    <a href="datenschutz.html">Datenschutzerklärung</a>
+    <a href="agb.html">AGB</a>
+    <a href="impressum.html">Impressum</a>
+  </div>
 </footer>
 
-<script src="../js/header.js"></script>
-<script src="../js/global.js"></script>
-<script src="../js/foglalas.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/header.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="../js/foglalas.js"></script>
 </body>
 </html>
+
+
